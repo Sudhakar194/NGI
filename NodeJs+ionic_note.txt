@@ -1,0 +1,222 @@
+-> Base64 is an encoding and decoding technique used to convert binary data to an American Standard for Information Interchange (ASCII) text format, and vice versa.
+- One of encryption method to hide the real data 
+-It is used to transfer data over a medium that only supports ASCII formats, such as email messages on Multipurpose Internet Mail Extension (MIME) and Extensible Markup Language (XML) data.
+-Base64 is a binary to text encoding scheme that is generally used to transfer content-based messages over the Internet. It works by dividing every three bits of binary data into six bit units.
+
+A Binary Large OBject (BLOB) is a collection of binary data stored as a single entity in a database management system. Blobs are typically images, audio or other multimedia objects, though sometimes binary executable code is stored as a blob. Database support for blobs is not universal.
+
+Cordova is a framework that gives you Javascript bindings to invoke native functionality on a mobile device. Each functionality is accessed using a plugin system and so for a typical project there would be multiple plugins. These can be installed using CLI. Ionic provides a JS, HTML and CSS components beautifully designed for the web and leverages Cordova's awesome plugins for accessing device functionalities. Thus without Cordova, you cannot access any device specific features in Ionic.
+
+ionic = cordova + angular 
+npm - javascript package manager
+npm is the package manager for the Node JavaScript platform. It puts modules in place so that node can find them, and manages dependency conflicts intelligently.
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+For json connection issue, 
+1) Create browser short cut and change target location with below path  
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir=D:\temp\GoogleCrome
+
+Java Script 
+Ajax - Ajax is used to perform a callback, making a quick round trip.Ajax allows you to make asynchronous calls to a web server
+Jquery 
+-----------------------------------------------------
+JSON stands for JavaScript Object Notation
+JavaScript built-in function JSON.parse() to convert the string into a JavaScript object
+
++++++++++++++++++++++++++++++++++++++++++++
+plunker
+sandbox
+
+++++++++++++++++++++++++++++++++++
+
+https://www.ibm.com/support/knowledgecenter/en/SSMKHH_9.0.0/com.ibm.etools.mft.doc/ab20551_.htm
+https://www.ibm.com/developerworks/websphere/library/techarticles/1305_batchu/1305_batchu.html
+
+https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/findstr
+
+
+dir "\*990909794*\" /s  -- 
+The filename, directory name, or volume label syntax is incorrect.
+
+findstr /s /i /n /p sudhan1234 *.*
+
+s-> Searches the current directory and all subdirectories.
+i-> Ignores the case of the characters when searching for the string.
+n-> Prints the line number of each line that matches.
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+https://devdactic.com/ionic-side-menu-tabs/
+https://ionicframework.com/docs/ionicons/
+https://ionicframework.com/docs/native/social-sharing/
+https://ionicframework.com/docs/api/components/item/ItemSliding/
+
+
+++++++++++++++++++++++++++
+
+www.hackerrank.com, 
+www.hackerearth.com, 
+www.codechef.com, 
+www.codenations.com, 
+www.topcoder.com,
+www.codeforces.com
+www.geeksforgeeks.org
+sprojecteuler.net
+
+
+https://www.youtube.com/watch?v=yO6t-mRBfyE
+
+
+$.ajax({
+    url: "/bin/website/protectedpage.html",
+    success: function(){
+    }
+});
+
+$.ajax({
+    type: "POST",
+    url: URL,
+    data: reqBody,
+    dataType: "json",
+    success: function(data, textStatus) {
+        if (data.redirect) {
+            // Redirect here
+            window.location.href = data.redirect;
+        }
+        else {
+            // No redirection.
+        }
+    }
+});
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+https://www.youtube.com/watch?v=XW8CESZte70
+
+https://stackoverflow.com/questions/40628240/cordova-requirements-check-failed-for-jdk-1-8-or-greater
+
+Node & npm
+--------------------
+https://dashboard.ionicframework.com/welcome
+https://nodejs.org/en/download/current/
+
+https://cordova.apache.org/docs/en/latest/guide/platforms/android/#setting-environment-variables
+https://www.tutorialspoint.com/cordova/cordova_first_application.htm
+
+https://ionicframework.com/docs/v1/guide/testing.html
+
+https://docs.microsoft.com/en-us/xamarin/android/deploy-test/signing/manually-signing-the-apk
+
+#install node-v11.0.0-x64.msi
+open cmd
+> node -v
+> npm -v 
+> cordova requirements
+
+#Install Ionic CLI
+npm install -g ionic cordova
+npm install -g node-gyp
+npm install --global windows-build-tools
+
+npm install -g cordova
+ionic cordova platform add android  (--verbose)
+
+sublime test editor - for code, markup and prose 
+subl.exe
+
+#Ionic
+>ionic start <appname> <default_template .. blank, tabs, sidemenu>
+>cd <appname>
+>ionic serve
+
+
++++++++++++++++++++++++++++++++++ Build  +++++++++++
+for debug 
+> ionic cordova build android
+
+for release
+> ionic cordova run android --prod --release
+# or
+> ionic cordova build android --prod --release
+
+
+----- errors ----------------------------------
+1) [ERROR] An error occurred while running subprocess cordova.
+Ans: clear all jdk which is installed version 8 and remove path location from environment-variables and install new jdk1.8.166 v and set the path in java_home and path 
+
+2)Error occurred during initialization of VM - Could not reserve enough space for 2097152KB object heap
+Ans: Go to Start -> Control Panel -> System -> Advanced(tab) -> Environment Variables -> System Variables -> New:
+Variable name: _JAVA_OPTIONS
+Variable value: -Xmx512M
+
+3) You have not accepted the license agreements of the following SDK components: [Android SDK Platform 27].
+> android update sdk --no-ui --filter build-tools-24.0.0,android-24,extra-android-m2repository
+-----------------------------------------------
+If you want to release your app in the Google Play Store, you have to sign your APK file
+> keytool -genkey -v -keystore my-testrelease-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
+
+To sign the unsigned APK, run the jarsigner tool which is also included in the JDK:
+> jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-testrelease-key.jks <path - D:\Sudhakar\WorkSpaces - NodeJS\WorkSpace\myappsidemenu\platforms\android\app\build\outputs\apk\debug>/app-testrelease-unsigned.apk my-alias
+
+we need to run the zip align tool to optimize the APK
+> C:\Users\thpbsm\AppData\Local\Android\Sdk\build-tools\24.0.0\zipalign -v 4 "D:\Sudhakar\WorkSpaces - NodeJS\WorkSpace\myappsidemenu\platforms\android\app\build\outputs\apk\debug\app-debug.apk" myappsidemenu.apk
+
+To verify that your apk is signed run apksigner.
+> C:\Users\thpbsm\AppData\Local\Android\Sdk\build-tools\24.0.0\apksigner verify HelloWorld.apk
+
+for run ionic emulater 
+> npm i -D -E -g @ionic/app-scripts
+
+run on android emulater 
+> adb install "D:\Sudhakar\WorkSpaces - NodeJS\WorkSpace\myappsidemenu\platforms\android\myappsidemenu.apk"
+
+
+push notification (client & server good one )
+https://medium.com/@ankushaggarwal/push-notifications-in-ionic-2-658461108c59
+
+ionic cordova plugin add cordova-plugin-advanced-http
+
+
+SQLITE
+-- https://www.djamware.com/post/59c53a1280aca768e4d2b143/ionic-3-angular-4-and-sqlite-crud-offline-mobile-app
+ionic cordova plugin add cordova-sqlite-storage
+npm install --save @ionic-native/sqlite
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++
+logger -- log4j 
+https://robferguson.org/blog/2017/11/19/ionic-3-and-forms/
+
+form validation -- good one 
+https://forum.ionicframework.com/t/a-good-form-validation-example/117960/9
+
+Sliding List
+https://ionicframework.com/docs/components/#sliding-list
+
+tarnary condition (the)
+https://stackoverflow.com/questions/51301771/toggle-change-nested-button-colors-in-ionic-2x
+
+menu change right to left left to right 
+https://forum.ionicframework.com/t/change-side-menu-direction-in-ionic-and-multi-app-direction-rtl-ltr/97963/7
+
+
+Form moves up when ion-input fields get focus  --- check with one 
+
+ select box change the value based  on the scrollling 
+https://stackoverflow.com/questions/40654527/ionic-2-adding-form-fields-dynamically?rq=1
+
+file upload and dowload 
+https://ionicframework.com/docs/native/file-transfer/
+
+
+file writter 
+https://stackoverflow.com/questions/51099069/read-write-append-file-in-ionic-3-using-ionic-native-file
+https://forum.ionicframework.com/t/how-to-append-a-text-in-a-existing-files-specific-location/119520
+
+
+
+

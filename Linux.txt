@@ -1,0 +1,15 @@
+http://intranet.ega.gov.bh/Quality/Lists/Change%20Control%20System/MyRequests.aspx
+
+https://developer.ibm.com/answers/smartspace/integration-bus/
+
+
+chmod u=rwx,g=rx,o=r myfile
+chown 
+chgrp
+
+grep 201602600000672017 * | cut -c 1-150
+
+grep 201602600000672017 * | sed -e 's/^\(.\{120\}\).*/\1/'
+
+
+grep 933070 /NGI/*/*/*.log | cut -c 1-150

@@ -1,0 +1,50 @@
+run .jar in cmd
+--------------------
+> java -jar /temp/VehInsrQuotationsUpdScheduler_v1.jar 
+
+cron folder
+--------------
+• /etc/cron.hourly
+• /etc/cron.daily
+• /etc/cron.weekly
+• /etc/cron.monthly
+1) Copy your shell script 'script.sh' or 'script' into one of the directories above. 
+	> cd /etc/cron.daily/
+2) Give the shell script the correct permission.     
+    > chmod 755 script.sh 
+3) Add new cron job to crontab:
+    > crontab –e (This opens vi editor for you)
+	
+* * * * * Command to be executed 	
+Min (0 - 59)  Hour (0 - 23) Day of month (1 - 31) Month (1 - 12) Day of week (0-7)
+> 0 0 * * * java -jar /temp/VehInsrQuotationsUpdScheduler_v1.jar -- > exactly execute at midnight every night. 	
+> 15 0 * * * java -jar /temp/VehInsrQuotationsUpdScheduler_v1.jar -- > exactly execute every 15 min. 	
+	
+> crontab -l
+*/15 * * * * java -jar /temp/VehInsrQuotationsUpdScheduler_v1.jar >> /temp/Venkat/VehicleQuotation.out 2>&1
+
+/var/wmbadmin
+/var/wmbadmin/MONITOR/NGILocalURLMonitor
+/var/wmbadmin/NGINotifications/template/EWAGoEbill/email 
+/var/wmbadmin/NGINotifications/template/eRegister/email
+
+/NGIScripts/DeploymentScript
+/eComplains
+/eComplains/Production
+/eComplains/Production/GDTAttachments/NVR/ToFTP
+
+/wmb/ssl
+
+/var/mqsi
+/odbc
+/shared-classes
+
+/Home/thpbsm  -- all users 
+
+/opt -- installation directories
+
+
+
+
+
+.bash ? 

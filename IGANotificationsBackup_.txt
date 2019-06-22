@@ -1,0 +1,434 @@
+import { HttpHeaders  } from '@angular/common/http';
+import { Http } from '@angular/http';
+
+import { RequestOptions } from '@angular/http';
+import { Injectable } from '@angular/core';
+
+import 'rxjs/add/operator/map';
+
+
+@Injectable()
+export class CallserverProvider {
+
+country: any[] = [];
+data: Object[] = [];
+name: any[] = [];
+
+items: Array<{ lname: string , fname: string}>;
+
+  constructor(public http: Http) {
+    	console.log('CallserverProvider Entry # 1 : ');
+
+  }
+
+
+public callServerGet(){
+
+    console.log('CallserverProvider callServerGet Entry # 2 : ');
+
+    this.http.get('http://localhost:5555/IGANotifications_java/action/test').map(res =>  
+          res.json()).subscribe(
+        
+
+           data => {
+             console.log('CallserverProvider Entry # 4 : ' +  data.status);
+              this.items = [];
+              for (let i = 0;  i<= 1 ; i++){
+                console.log('CallserverProvider Entry # 10 : ' +  data[i].lname);       
+                console.log('CallserverProvider Entry # 11 : ' +  data[i].fname);
+              }
+
+          }, err => {
+              console.log('CallserverProvider Entry # 4 : ' +  err.status);
+               console.log('CallserverProvider Entry # 4 : ' +  err);
+
+
+          });
+
+
+
+   this.http.get('http://localhost:5555/IGANotifications_java/action/test').toPromise()
+    .then (data => {
+        this.data = JSON.parse(JSON.stringify(data));
+        console.log("data1 : " + this.data.fname[0]);
+        console.log("data2 : " + this.data.lname[0]);
+     })
+
+    .catch(error => {
+        // status 200 & error data undefined means , message format is wrong 
+        console.log("error : " + error );    
+  	}); 
+
+
+
+
+
+    // should use in pages 
+   /** this.http.get('http://localhost:5555/IGANotifications_java/action/test').subscribe(
+     data => {
+        console.log("data : " + data);
+        console.log("data.status : " + data.status);
+        console.log("data.data : " + data.data);
+        console.log("data.headers : " + data.headers);
+     }, error => {
+
+        console.log("error : " + error );
+        console.log("error.status : " + error.status);
+        console.log("error.data : " + error.data);
+        console.log("error.headers : " + error.headers);
+
+    }); */
+
+} //callServerGet
+
+
+
+public callServerPost(){
+	var headers = new HttpHeaders();    
+	 /** headers.append("Accept","application/json");
+    headers.append('Content-type','application/json');
+    const requestOptions = new RequestOptions({headers: headers })
+
+   let postReqData = {"userid": "sudhakar",
+   					"password":"sudhakar"}
+
+   this.http.post("http://localhost:5555/IGANotifications_java/action/test",postReqData,requestOptions).subscribe(data => {
+     console.log(data.data);
+
+   }, error => { 
+   	console.log(error.error);
+
+   });					
+*/
+} 
+
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ERROR Error: Uncaught (in promise): Error: If ngModel is used within a form tag, either the name attribute must be set or the form
+      control must be defined as 'standalone' in ngModelOptions.
+
+      Example 1: <input [(ngModel)]="person.firstName" name="first">
+      Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">
+Error: If ngModel is used within a form tag, either the name attribute must be set or the form
+      control must be defined as 'standalone' in ngModelOptions.
+
+      Example 1: <input [(ngModel)]="person.firstName" name="first">
+      Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">
+    at Function.TemplateDrivenErrors.missingNameException (forms.js:5891)
+    at NgModel._checkName (forms.js:6244)
+    at NgModel._checkForErrors (forms.js:6217)
+    at NgModel.ngOnChanges (forms.js:6099)
+    at checkAndUpdateDirectiveInline (core.js:12407)
+    at checkAndUpdateNodeInline (core.js:13935)
+    at checkAndUpdateNode (core.js:13878)
+    at debugCheckAndUpdateNode (core.js:14771)
+    at debugCheckDirectivesFn (core.js:14712)
+    at Object.eval [as updateDirectives] (HomePage.html:36)
+    at c (polyfills.js:3)
+    at Object.reject (polyfills.js:3)
+    at NavControllerBase._fireError (nav-controller-base.js:223)
+    at NavControllerBase._failed (nav-controller-base.js:216)
+    at nav-controller-base.js:263
+    at t.invoke (polyfills.js:3)
+    at Object.onInvoke (core.js:4760)
+    at t.invoke (polyfills.js:3)
+    at r.run (polyfills.js:3)
+    at polyfills.js:3
+	
+	
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+<ion-header>	
+	<ion-navbar hideBackButton="true" color="navbarColor">	
+		 <ion-title text-center>
+		   <ion-label class="navbarTitle">IGA Notifications </ion-label>
+		</ion-title>
+		 <ion-buttons end>
+	      	<button ion-button icon-only (click)="langChange()" [hidden]=langChangeArHidden>
+	      		<ion-icon md="logo-angular">
+</ion-icon>
+</button>
+	        <button ion-button icon-only (click)="langChange()" [hidden]=langChangeEnHidden>
+	      		<ion-icon md="logo-linkedin">
+</ion-icon>
+</button>
+	     </ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<div [hidden]=loginFormHidden>
+	  
+	      <ion-item>
+	       		<ion-input type="text" class="custom-input" [(ngModel)]="loginUserid"  placeholder="User ID (CPR)" maxlength="9" required >
+</ion-input> 
+	      </ion-item> 
+
+	      <ion-item> 
+	      		<ion-input type="text"  class="custom-input" [(ngModel)]="loginPassword" placeholder="Password" >
+</ion-input> 
+	      </ion-item>   
+
+	      <div class="custom-input" text-center>
+	      	<button ion-button round (click)="loginUser()" small>Log In</button>
+	      </div>
+	
+    </div>
+
+   <div [hidden]=newUserFormHidden>
+		<form  #newUserForm="ngForm">
+		      <ion-item> 
+		      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserUserid"  placeholder="User ID (CPR)" required>
+</ion-input>
+		      </ion-item>	     
+		      <ion-item> 
+		      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserEmail"   placeholder="Email ID" required>
+</ion-input>
+		      </ion-item>
+		      <ion-item> 
+		      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserMobile"   placeholder="Mobile Number" required>
+</ion-input>
+		      </ion-item>
+		      <ion-item> 
+		      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserPassword"  placeholder="Password" required >
+</ion-input>
+		      </ion-item> 
+		      <ion-item> 
+		      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserComfirmpassword"  placeholder="Confirm Password" required>
+</ion-input>
+		      </ion-item>  
+		      
+		      <div class="custom-input" text-center>
+<button ion-button round (click)="newUser(newUserForm)" small>Click to Register</button>
+</div>
+		</form>	
+   </div>
+
+   <div [hidden]=forgotDetailsFormHidden>
+		<form  #forgotDetailsForm="ngForm">
+		      <ion-item> 
+		      	<ion-input type="text" class="custom-input" [(ngModel)]="userid"   placeholder="User ID (CPR)" name="userid" pattern="[0-9]{8}" required>
+</ion-input>
+		      </ion-item>  <div class="custom-OR" text-center>OR</div>
+		      <ion-item> 
+		      	<ion-input type="text" class="custom-input" [(ngModel)]="email"   placeholder="Email ID" name="email" required>
+</ion-input>
+		      </ion-item> <div class="custom-OR" text-center>OR</div>
+		      <ion-item> 
+		      	<ion-input type="number" class="custom-input" pattern="[0-9]{8}" [(ngModel)]="mobile"  placeholder="Mobile Number" name="mobile" required>
+</ion-input> 
+		      </ion-item>	   
+
+		      <div class="custom-input" text-center>
+<button ion-button round (click)="forgotDetails(forgotDetailsForm)" small>Forgot Password</button>
+</div>  
+		</form>	
+   </div>
+
+
+	<div class="custom-input" [hidden]=loginButtonHidden>	
+      <a (click)="showForm('loginUser')">
+<u>Log In</u>
+</a>  
+	</div>
+
+	<div class="custom-input" class="custom-input"  [hidden]=newUserButtonHidden>
+	   <a (click)="showForm('newUser')">
+<u>New User</u>
+</a>  
+	</div>	
+
+    <div class="custom-input" [hidden]=forgotDetailsButtonHidden>      
+      <a (click)="showForm('forgotDetails')">
+<u>Forgot Password</u>
+</a>	    	
+	</div>
+
+	<div [hidden]=otpHidden>
+		 <ion-card>
+		     <ion-card-header>
+		     	  <ion-item (click)="closeOTP()">
+                      <ion-icon name="close-circle" item-right>
+</ion-icon>
+		     	  </ion-item>
+			      <ion-title>Enter OTP</ion-title>
+		     </ion-card-header>
+		     <ion-card-content>
+
+                <table> 
+                    <tr> 
+                    <td> <ion-input type="number" #opt1 class="otp" pattern="[0-9]{1}" maxlength="1" size="1" (keyup)="next(otp2)">
+</ion-input> </td> 
+                    <td> <ion-input type="number" #opt2 class="otp" pattern="[0-9]{1}" maxlength="1" size="1" (keyup)="next(otp3)">
+</ion-input> </td> 
+                    <td> <ion-input type="number" #opt3 class="otp" pattern="[0-9]{1}" maxlength="1" size="1" (keyup)="next(otp4)">
+</ion-input> </td> 
+                    <td> <ion-input type="number" #opt4  class="otp" pattern="[0-9]{1}" maxlength="1" size="1" >
+</ion-input>  </td>  </tr>
+                </table>
+		     	<button ion-button block (click)="submitRegistrationOTP()">Submit</button>		   
+		     </ion-card-content>
+		 </ion-card>
+	</div>	
+
+
+</ion-content>
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+<ion-header>	
+	<ion-navbar hideBackButton="true" color="navbarColor">	
+		 <ion-title text-center>
+		   <ion-label class="navbarTitle">IGA Notifications </ion-label>
+		</ion-title>
+		 <ion-buttons end>
+	      	<button ion-button icon-only (click)="langChange()" [hidden]=langChangeArHidden>
+	      		<ion-icon md="logo-angular">
+</ion-icon>
+</button>
+	        <button ion-button icon-only (click)="langChange()" [hidden]=langChangeEnHidden>
+	      		<ion-icon md="logo-linkedin">
+</ion-icon>
+</button>
+	     </ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+
+
+
+<ion-content>
+	<div [hidden]=loginFormHidden>
+	  
+	      <ion-item>
+	       		<ion-input type="text" class="custom-input" [(ngModel)]="loginUserid"  placeholder="User ID (CPR)" maxlength="9" required (keydown)="isValidNumber($event)">
+</ion-input> 
+	      </ion-item> 
+
+	      <ion-item> 
+	      		<ion-input type="text" class="custom-input" [(ngModel)]="loginPassword" placeholder="Password" >
+</ion-input> 
+	      </ion-item>   
+
+	      <div class="custom-input" text-center>
+	      	<button ion-button round (click)="loginUser()" small>Log In</button>
+	      </div>
+	
+    </div>
+
+   <div [hidden]=newUserFormHidden>
+      <ion-item> 
+      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserUserid"  placeholder="User ID (CPR)" required>
+</ion-input>
+      </ion-item>	     
+      <ion-item> 
+      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserEmail"   placeholder="Email ID" required>
+</ion-input>
+      </ion-item>
+      <ion-item> 
+      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserMobile"   placeholder="Mobile Number" required>
+</ion-input>
+      </ion-item>
+      <ion-item> 
+      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserPassword"  placeholder="Password" required >
+</ion-input>
+      </ion-item> 
+      <ion-item> 
+      	<ion-input type="text" class="custom-input" [(ngModel)]="newUserComfirmpassword"  placeholder="Confirm Password" required>
+</ion-input>
+      </ion-item>  
+      
+      <div class="custom-input" text-center>
+<button ion-button round (click)="newUser()" small>Click to Register</button>
+</div>
+   </div>
+
+
+   <div [hidden]=forgotDetailsFormHidden>
+      <ion-item> 
+      	<ion-input type="text" class="custom-input" [(ngModel)]="forgotUserid" placeholder="User ID (CPR)" required>
+</ion-input>
+      </ion-item>  <div class="custom-OR" text-center>OR</div>
+      <ion-item> 
+      	<ion-input type="text" class="custom-input" [(ngModel)]="forgotEmail" placeholder="Email ID"required>
+</ion-input>
+      </ion-item> <div class="custom-OR" text-center>OR</div>
+      <ion-item> 
+      	<ion-input type="number" class="custom-input" [(ngModel)]="forgotMobile" placeholder="Mobile Number"required>
+</ion-input> 
+      </ion-item>	   
+
+      <div class="custom-input" text-center>
+<button ion-button round (click)="forgotDetails(forgotDetailsForm)" small>Forgot Password</button>
+</div>  		
+   </div>
+
+
+	<div class="custom-input" [hidden]=loginButtonHidden>	
+      <a (click)="showForm('loginUser')">
+<u>Log In</u>
+</a>  
+	</div>
+
+	<div class="custom-input" class="custom-input"  [hidden]=newUserButtonHidden>
+	   <a (click)="showForm('newUser')">
+<u>New User</u>
+</a>  
+	</div>	
+
+    <div class="custom-input" [hidden]=forgotDetailsButtonHidden>      
+      <a (click)="showForm('forgotDetails')">
+<u>Forgot Password</u>
+</a>	    	
+	</div>
+
+	<div [hidden]=otpHidden>
+		 <ion-card>
+		     <ion-card-header>
+		     	  <ion-item (click)="closeOTP()">
+                      <ion-icon name="close-circle" item-right>
+</ion-icon>
+		     	  </ion-item>
+			      <ion-title>Enter OTP</ion-title>
+		     </ion-card-header>
+		     <ion-card-content>
+
+                <table> 
+                    <tr> 
+                    <td> <ion-input type="number" #opt1 class="otp" pattern="[0-9]{1}" maxlength="1" size="1" (keyup)="next(otp2)">
+</ion-input> </td> 
+                    <td> <ion-input type="number" #opt2 class="otp" pattern="[0-9]{1}" maxlength="1" size="1" (keyup)="next(otp3)">
+</ion-input> </td> 
+                    <td> <ion-input type="number" #opt3 class="otp" pattern="[0-9]{1}" maxlength="1" size="1" (keyup)="next(otp4)">
+</ion-input> </td> 
+                    <td> <ion-input type="number" #opt4  class="otp" pattern="[0-9]{1}" maxlength="1" size="1" >
+</ion-input>  </td>  </tr>
+                </table>
+		     	<button ion-button block (click)="submitRegistrationOTP()">Submit</button>		   
+		     </ion-card-content>
+		 </ion-card>
+	</div>	
+
+
+</ion-content>
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+   1) // this.selectedItem = navParams.get('item');
+   
+  2)   /** ionViewDidLoad() {
+			console.log('ionViewDidLoad MinstrylistPage ');
+		  } */
+
+  3) 	  	// That's right, we're pushing to ourselves!
+	    //this.appObject.getRootNav().push(NotificationPage, {item: item} );
+
+		this.navCtrl.setRoot(NotificationPage);
+		this.navCtrl.push(NotificationPage, {item: item}); 
+

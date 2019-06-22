@@ -1,0 +1,41 @@
+tracert <domainname> - to get connectivity flow to domain 
+
+
+########################################################################################################################################################
+
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir=D:\temp\GoogleCrome
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir=C:\Users\thsckk\Desktop\abcd
+
+Import - html 
+<script type="text/javascript" src="JsAni1.js"></script>    
+
+-------------------------------------------------------------------------------------    
+<link rel="stylesheet" href="Prac.css">
+
+<style>
+.center {
+	text-align: center;
+	color: red;
+}
+</style>
+
+<P class="bodyclass"> Message </P> -> it can be same 
+<p id="center">List :</p> -> id should be unique 
+-------------------------------------------------------------------------------------
+ctrl + shift + j - console 
+
+-------------------------------------------------------------------------------------
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+ $('#addOne').click(function(){
+                $('#body ul').append('<li>3</li>');  -- id , same in css 
+                $('.footer ul').prepend('<li>4</li>');   -- class ,  same in css           
+});
+-------------------------------------------------------------------------------------
+
+ $.ajax({url: "http://10.11.29.18/ScService/restful/sc/api/v1/looup/item/religion", success: function(result){
+     $("#div1").html(result);
+ }});
+ 
+ 
+ 
+ https://www.tutorialspoint.com/jquery/jquery-ajax.htm
