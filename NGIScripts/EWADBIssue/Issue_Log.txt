@@ -1,0 +1,19 @@
+Trying 10.39.217.3...
+DB Connection Error with EWA, Need to Restart EWA DMZ flow
+Flow Restarted Successfully
+DB Connection Error with EWA, Need to Restart EWA DMZ flow
+/NGIScripts/EWADBIssue/EWADBConnectionIssue.sh: line 5: mqsistopmsgflow: command not found
+/NGIScripts/EWADBIssue/EWADBConnectionIssue.sh: line 7: mqsistartmsgflow: command not found
+Flow Restarted Successfully
+DB Connection Error with EWA, Need to Restart EWA DMZ flow
+
+MQSI 7.0.0.3
+/opt/ibm/mqsi/7.0
+
+BIP1028I: Stopping message flow 'com.ngi.EWAServiceFlow' on execution group 'PORTALPLUS_EXEGRP_DMZ'...
+BIP1031I: Message flow 'com.ngi.EWAServiceFlow' on execution group 'PORTALPLUS_EXEGRP_DMZ' is reported as stopped.
+BIP8071I: Successful command completion.
+BIP1027I: Starting message flow 'com.ngi.EWAServiceFlow' on execution group 'PORTALPLUS_EXEGRP_DMZ'...
+BIP1030I: Message flow 'com.ngi.EWAServiceFlow' on execution group 'PORTALPLUS_EXEGRP_DMZ' is reported as started.
+BIP8071I: Successful command completion.
+Flow Restarted Successfully
