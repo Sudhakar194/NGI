@@ -1,0 +1,2028 @@
+﻿AIX
+##############################################################################################################################################
+$ env   - Linux 
+
+2) ps -ef
+3) ps -ef | grep flowName/...
+4) df -h                                               --> for free spaces of directories
+5) topas                                               --> for process utility
+6) kill -9 <proccess_ID>
+7) ps -ef | grep LSQM41BRK
+8) ps -ef | grep bip
+9) :%s/<search string>/<replace string>/g    --> search and replace Ex:    :%s/SIT/PRD/g 
+10) home/wmbadmin>cd /opt                    --> need go directly one dir to another dir
+
+11) grep <search string> <file/directory> | cut -c 1-150 --> it will cut the line 
+12) grep -B 1 <'HTTP Status 404'> * > data.txt --> get required line and before line 
+13) grep -A 1 <'HTTP Status 404'> * > data.txt --> get required line and after line 
+
+Find Directory / File 
+----------------------------------------
+find . -name 'Sudhan'
+find . -name 'Sudhan*'
+find . -type f -name '*.doc'
+
+Find Word inside multiple files
+-----------------------------------------
+find . -type f -exec grep -l <search word> {} + 
+find . -type f -exec grep <search word> {} +      --> it will display all files data like tar...
+
+To use vi: vi filename  ::
+------------------------------------------
+To exit vi and save changes: ZZ   or  :wq
+To exit vi without saving changes: :q!   OR :q
+To enter vi command mode: [esc]
+:w       saves the current file without quitting
+:#       move to line #
+:$       move to last line of file
+G        move to the last line in the file
+
+?<search key word>     search based on the keyword 
+n -> next search 
+shift+n (N) -> previous search of the next search(n)
+
+Deleting
+---------------
+x       delete character under cursor
+dd      delete line under cursor
+dw      delete word under cursor
+db      delete word before cursor
+
+shift + 4  ($)                 -->  end of the line 
+shift + 6  (^)                 --> starting of the line 
+R                              --> replace char
+0 or .                         --> move to new line
+h                              --> move left
+j                              --> move down
+k                              --> move up
+l                              --> move right 
+
+Change User password  :::
+--------------------------------------------
+@@@ From root user
+
+sudo su -   -- > this will connect to root 
+
+lsuser chendilk
+chuser unsuccessful_login_count=0 chendilk
+passwd chendilk
+pwdadm -c chendilk
+
+
+startLSQM41BRK.sh
+-----------------------------
+export IBM_JAVA_OPTIONS=-Djavax.net.debug=true
+export MQSI_SOAP_DEBUG=1
+export ODBCINI=/sitenv1/lsqm41/LSQM41BRK/odbc.ini
+export CLASSPATH=$CLASSPATH:/home/wmbadmin/jdbc/ojdbc6.jar:/home/wmbadmin/jdbc/orai18n.jar:/home/wmbadmin/config:/home/wmbadmin/jdbc/
+export MQSI_THREAD_STACK_SIZE=8000000
+mqsistart LSQM41BRK
+------------------------------------
+
+sv_LSQM41.sh
+-------------------
+#!/bin/sh
+export MQSERVER="SYSTEM.ADMIN.SVRCONN/TCP/172.24.70.21(4141)"
+saveqmgr.aix -m LSQM41 -F LSQM41.mqsc -o -s -z LSQM41.mcat
+------------------------------------------
+setJavac.sh
+---------------------
+export PATH=$PATH:/usr/openv/java/sdk/bin
+export CLASSPATH=$CLASSPATH:/home/wmbadmin/jdbc/orai18n.jar:/home/wmbadmin/jdbc/ojdbc6.jar:.
+
+
+##################################################################################################################################
+SSL
+
+WSDL Access from WMB :::
+------------------------------------------
+1) we should add wsdl file to SOAP Node and deploy , should check ?wsdl enabled in node properties
+2) check connectivity -> CMD -> telnet ip Port
+3) check in browser -> if not able to access -> uncheck the proxy options in browser
+4) uncheck porxy -> IE -> tools -> Internet options -> connections -> LAN sattings -> uncheck (use a proxy server for your LaN) -> ok
+
+
+/sitenv1/lsqm41/LSQM41BRK/mqsi/registry/LSQM41BRK/CurrentVersion/DSN/ORAMWDB - it is having password and userid files
+-----------------------------------------------------------
+
+Convert pfx to JKS format  :::
+------------------------------------------
+keytool -importkeystore -srckeystore <Bank_Test_Merchant.pfx> -srcstoretype pkcs12 -destkeystore <Bank_Test_Merchant.jks> -deststoretype JKS
+(or)
+keytool -import -keystore MashreqMW.pfx -storetype pkcs12 -keystore clientcert.jks -storetype JKS
+
+Convert pfx to JKS format  :::
+-------------------------------------------
+keytool -importkeystore -srckeystore D:\Bank_Test_Merchant.zip\Bank_Test_Merchant.pfx -srcstoretype pkcs12 -destkeystore D:\Bank_Test_Merchant.zip\Bank_Test_Merchant.jks -deststoretype JKS
+
+keytool -list -v -keystore D:\Bank_Test_Merchant.zip\Bank_Test_Merchant.jks
+
+Download certificate from URL  :::
+--------------------------------------------
+openssl s_client -showcerts -connect <IP>:<port> | openssl x509 -outform DER > SEWA.der
+
+openssl s_client -showcerts -connect www.example.com:443 < /dev/null | openssl x509 -outform DER > derp.der
+
+See the JKS file
+------------------------------------------
+keytool -list -v -keystore <Bank_Test_Merchant.jks>
+
+
+Download certificate from URL  :::
+-------------------------------------------
+openssl s_client -showcerts -connect <IP>:<port> | openssl x509 -outform DER > SEWA.der
+openssl s_client -showcerts -connect www.example.com:443 < /dev/null | openssl x509 -outform DER > derp.der
+
+
+curl command :::
+------------------------------------------
+curl -H 'Content-Type: text/xml' -v -k -x 10.4.4.123:80 http://ipouat.dfm.ae/UIMSBB/validateXMLSub
+curl -v http://ipouat.dfm.ae/UIMSBB/validateXMLSub
+curl -v -k https://ipouat.dfm.ae/UIMSBB/validateXMLSub                -->  -k to Avoid certificat verification
+curl -H 'Content-Type: text/xml' -v -k -x 10.4.4.123:80 -d @ADPTest.xml "http://194.170.200.102/trafficwebservices/mortgageservices.asmx --> -x proxy 
+
+Get wsdl file from URL 
+---------------------------------------------
+curl http://www.webservicex.net/WeatherForecast.asmx?WSDL > weatherForcast.wsdl
+curl -X POST -H 'Content-Type: text/xml' -v -k --header<or -H> "SOAPAction:urn:GetVehicleLimitedInfo" --data <or -d or --data-binary> @ADPTest.xml "http://194.170.200.102/trafficwebservices/mortgageservices.asmx
+
+
+curl command Get wsdl file from URL  with authentication:::
+---------------------------------------------------------------------
+curl -u <username> <httpurl?wsdl> -> it will ask password 
+
+
+SSL config in BROKER EXE Group level ::
+-------------------------------------------
+1) Login to 10.4.6.86 using wmbadmin.
+2) Create Execution group UAEPGS.
+3) Navigate to /home/wmbadmin/SSL/
+4) Copy UAEPGS.jks file  to above path in Binary format.
+5) Execute the below commands one by one.
+
+mqsichangeproperties DSQM03BRK -e UAEPGS -o ComIbmJVMManager -n keystoreType -v JKS
+mqsichangeproperties DSQM03BRK -e UAEPGS -o ComIbmJVMManager -n keystoreFile -v /home/wmbadmin/SSL/UAEPGS_TRUSTSTORE.jks
+mqsichangeproperties DSQM03BRK -e UAEPGS -o ComIbmJVMManager -n keystorePass -v UAEPGSKeyStore::Password
+mqsichangeproperties DSQM03BRK -e UAEPGS -o ComIbmJVMManager -n truststoreType -v JKS
+mqsichangeproperties DSQM03BRK -e UAEPGS -o ComIbmJVMManager -n truststoreFile -v /home/wmbadmin/SSL/UAEPGS_TRUSTSTORE.jks
+mqsichangeproperties DSQM03BRK -e UAEPGS -o ComIbmJVMManager -n truststorePass -v UAEPGSTrustStore::Password
+
+mqsisetdbparms DSQM03BRK -n UAEPGSKeyStore::Password -u ignore -p 123456
+mqsisetdbparms DSQM03BRK -n UAEPGSTrustStore::Password -u ignore -p 123456
+
+mqsistopmsgflow DSQM03BRK –e UAEPGS –w 800                                         --> Stop the Executiongroup using  command
+mqsistartmsgflow DSQM03BRK –e UAEPGS –w 800                                        --> start the Execution group using  command
+
+mqsireportproperties LSQM41BRK -e GSL -o ComIbmJVMManager -n truststoreFile 
+mqsireportproperties LSQM41BRK -e GSL -o ComIbmJVMManager -n keystoreFile
+mqsireportproperties LSQM41BRK -e INT -o ComIbmJVMManager -n keystoreType
+mqsireportproperties LSQM41BRK -e INT -o ComIbmJVMManager -n keystorePass -v UAEPGSKeyStore
+
+
+To check userdefind properties 
+-----------------------------------------
+mqsireportproperties MB7BROKER -c UserDefined -o EGAComplaintsSystemConfig -r
+
+
+
+.CER to .JKS  ::: Using Ikey manager MQ ::
+------------------------------------------
+
+1) open .cer file      -> Certification Path (search for root tag) 
+
+2) (If root tag not present) select root tag ( Under Certification Path) -> Click View Certificate -> Select Details Tab->
+click copy to file -> click Next -> click Next -> File Name (Browse and select path to save new global/root tag certificate .. provide new cer file name(GlobalSign) )
+-> click Next -> Select file name -> click Finish.
+
+3) open IBM Key Management (IN MQ) -> click keyDataBaseFile -> select New -> 
+
+keyDatabaseType = JKS
+Location        = certification path (\\172.24.181.52\d$\Vinoth\ERPS_CERT\EMPAY_CERT_TEST)
+File Name       = EMPAY.JKs 
+
+-> click Ok 
+Password         = 123456
+Confirm Password = 123456
+
+-> Click OK 
+-> Under Key database content -> select signer certificates -> select all and Delete -> 
+-> Click Add -> 
+Data TYpe                           =  BinaryDER data
+Location                            =  certification path (\\172.24.181.52\d$\Vinoth\ERPS_CERT\EMPAY_CERT_TEST)
+Certification file Name =  browse and select root tag cer file (Global and select all ... ) -> click ok 
+-> Enter a Label Name (Like cer file name) ...
+-> .jks file will be create in same path
+
+
+Check a stand-alone certificate ::: 
+-------------------------------------------
+keytool -printcert -v -file mydomain.crt
+
+
+======= 24-Dec-2014 ========
+WSDL Access from WMB..
+1) we should add wsdl file to SOAP Node and deploy, should check ?wsdl enabled in node properties
+2) check connectivity -> CMD -> telnet ip Port
+3) check in browser -> if not able to access -> uncheck the proxy options in browser
+4) uncheck porxy -> IE -> tools -> Internet options -> connections -> LAN settings -> uncheck (use a proxy server for your LaN) -> ok
+
+##################################################################################################################################
+JAVA
+
+CALL JAVA_NGISearch(cFinalReq) INTO cFinalRes;
+
+CREATE FUNCTION JAVA_NGISearch(IN cFinalReq CHARACTER)RETURNS CHARACTER
+LANGUAGE JAVA EXTERNAL NAME "com.ngi.NGISearch.getNGISearch";
+
+
+########################################################################################################################################################
+MQ
+
+Queue Creation using script (.MQSC) :::
+---------------------------------------
+D:\Program Files\IBM\WebSphere MQ\Qmgrs
+D:\Program Files\IBM\WebSphere MQ\log
+
+>runmqsc LSQM41 < LSQM41.MQSC > 
+>runmqsc LSQM41 <LSQM41.mqsc>LSQM41Output
+
+2) dspmqver    --> Display mq version
+3) dspmq       --> Displaying ALL QManagaer 
+4) endmqm -i <Qmanager Name> (Immediate stop)
+4) endmqm -w <Qmanager Name> (controlled stop)
+5) strmqm -x <Qmanager Name>
+6) dltmqm MYMQ
+
+crtmqm  -sa  -d MYMQ.TMQ -u MYMQ.DLQ MYMQ
+strmqm MYMQ
+
+DEFINE LISTENER('LISTENER.TCP') TRPTYPE(TCP) PORT(7575) CONTROL(QMGR)
+
+LSQM41 -> DSQM03
+----------------------------------------
+DEFINE QREMOTE(EMPAY_INPUT_AE) RNAME(EMPAY_INPUT_AE) RQMNAME(LPQM81) XMITQ(LPQM81)
+DEFINE QLOCAL(TSMEACC.REQ.AE.PRD)
+DEFINE QALIAS(TSMEACC.RES.AE.PRD) TARGET(GSL.RES.QA.PRD)
+
+DEF QL(DSQM03) USAGE(xmitq)                                                                   --> Transmition queue alredy exsists
+DEF QREMOTE(TEST.QR.IN.LSQM41) RNAME(TEST.QR.IN.DSQM03) RQMNAME(DSQM03) XMITQ(DSQM03)         --> QM1 -> QM2
+
+DISPLAY CHANNEL (LSQM41.DSQM03) ALL - 
+DISPLAY CHSTATUS (LSQM41.DSQM03)  -->  Status of channel
+start channel (LSQM41.DSQM03)     -->  Sender channel
+XMITQ - should be same as channel XMITQ name
+
+DSQM
+--------------------------------------------
+DEF QL(TEST.QR.IN.DSQM03)
+start channel (LSQM41.DSQM03)   --> receiver channel (same as LSQM41 sender channel name)
+
+Get port number for queue manager 
+--------------------------------------------------
+DISPLAY LSSTATUS(*)   
+DISPLAY LISTENER(LISTENER_6666)
+
+###########################################################################################################################################
+Mashreq
+
+clean logs
+---------------------------------
+for j in stdout stderr
+do
+echo "-----------------------------------------------$j-------------------------------"
+for i in `find /sitenv2/lsqm51/LSQM51BRK/mqsi/components/LSQM51BRK -name "$j"`
+do
+>$i
+echo "$i - `du -sm $i `"
+done
+done
+
+##############################################################################################################################################
+IIB / WMB
+
+Mashreq
+/opt/IBM/mqsi/7.0/bin/startDataFlowEngine
+/var/mqsi/components/utility/stdout  
+/sitenv1/lsqm41/LSQM41BRK/mqsi/components/LSQM41BRK/config
+/sitenv1/lsqm41/LSQM41BRK/mqsi/registry/LSQM41BRK/CurrentVersion>ls
+AdminAgentPID              DSN                        FixpackCapability          SecurityCache              brokerTruststoreFile
+AdminSecurity              DataSourceName             HABrokerMQService          StatisticsMajorInterval    brokerTruststorePass
+BrokerUUID                 DataSourcePassword         HTTPListener               WorkPath                   brokerTruststoreType
+ComponentType              DataSourceUserId           MQTrustedQueueManager      brokerKeystoreFile         converters
+ConfigurationDelayTimeout  ExternalResources          MigrationNeeded            brokerKeystorePass         operationMode
+ConfigurationTimeout       FADLevel                   QueueManagerName           brokerKeystoreType
+
+NGI
+/var/mqsi/components/MB7BROKER - execution level error logs 
+
+
+SET ODBC & JDBC Data source (FCDBMOBDB) to broker :::
+======================================================
+/home/iibadmin/Deployments/jarfiles -> ojdbc7.jar file
+/var/mqsi/shared-classes -> ojdbc7.jar file    (External jar file Path in AIX)
+
+odbc.ini  file path :::
+--------------------------------------------
+/sitenv1/lsqm41/LSQM41BRK/
+odbc.ini
+setBrkODBCINI.sh
+
+/sitenv1/lsqm41/LSQM41BRK/mqsi/registry/LSQM41BRK/CurrentVersion/DSN
+CRMSQLSTGVS / username
+Password
+
+mqsisetdbparms LSQM41BRK -n DSNNAME -u username <DB user name > -p password <DB Password>     -- BROKER restart required  --> we can give username and password with in "".
+mqsicvp LSQM51BRK -n CTSDEVDB (Check ODBC Connectivity )
+
+JDBC Configuration 
+--------------------------------------------------------
+mqsicreateconfigurableservice ABKAIX01D -c JDBCProviders -o POWERCARDDB -n connectionUrlFormat,connectionUrlFormatAttr1,databaseName,databaseType,databaseVersion,description,jarsURL,jdbcProviderXASupport,portNumber,serverName,type4DatasourceClassName,type4DriverClassName -v 'jdbc:oracle:thin:[middleware_dev <DB user id>]/[abk.1234<DB pwd>]@[10.1.175.210 <serverName>]:1621:pcard<SID>','pcard<SID>','pcard<DBserviceName>','Oracle','12c','power card database','/home/iibadmin/Deployments/jarfiles','false','1621','10.1.175.210','oracle.jdbc.xa.client.OracleXADataSource',
+'oracle.jdbc.OracleDriver'
+
+mqsireportproperties ABKAIX01D -c JDBCProviders -o POWERCARDDB -r 
+mqsisetdbparms ABKAIX01D -n jdbc::POWERCARDDB -u middleware_dev <DB user id> -p abk.1234 <DB pwd>
+mqsichangeproperties ABKAIX01D -c JDBCProviders -o POWERCARDDB -n securityIdentity -v POWERCARDDB
+mqsireportproperties ABKAIX01D -c JDBCProviders -o POWERCARDDB -r
+
+other below -> mashreqbank
+mqsichangeproperties LSQM41BRK -c EISProviders -o JDEdwards -n " \"jarsURL\", \"nativeLibs\" " -v " \"default_Path\", \"default_Path\" "
+mqsichangeproperties LSQM41BRK -c TCPIPServer -o PostilionConServer -n " \"ExpireConnectionSec\", \"MaxReceiveRecordBytes\", \"MaximumConnections\", \"Port\", \"SO_KEEPALIVE\", \"SO_LINGER\", \"SO_LINGER_TIMEOUT_SEC\", \"SO_RCVBUF\", \"SO_SNDBUF\", \"SSLCiphers\", \"SSLClientAuth\", \"SSLKeyAlias\", \"SSLProtocol\", \"TCP_NODELAY\", \"TrafficClass\" " -v " \"-1\", \"100000000\", \"100\", \"7827\", \"false\", \"false\", \"-1\", \"0\", \"0\", \"\", \"\", \"\", \"\", \"false\", \"-1\" "
+mqsichangeproperties LSQM41BRK -c JDBCProviders -o FCDBMOBDB -n " \"connectionUrlFormat\", \"connectionUrlFormatAttr1\", \"connectionUrlFormatAttr2\", \"connectionUrlFormatAttr3\", \"connectionUrlFormatAttr4\", \"connectionUrlFormatAttr5\", \"databaseName\", \"databaseType\", \"databaseVersion\", \"description\", \"environmentParms\", \"jarsURL\", \"maxConnectionPoolSize\", \"portNumber\", \"securityIdentity\", \"serverName\", \"type4DatasourceClassName\", \"type4DriverClassName\" " 
+-v " \"jdbc:oracle:thin:FCDBADMIN_UPG123/FCDBADMIN_UPG123@(DESCRIPTION = (ADDRESS = (PROTOCOL= TCP)(HOST = fcdbuat-scan.mashreqbank.corp.network)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = DMFCDB)))\", \"\", \"\", \"\", \"\", \"\", \"DMFCDB\", \"Oracle\", \"11.2\", \"default_Description\", \"default_none\", \"/home/wmbadmin/jdbc\", \"0\", \"1521\", \"default_User@default_Server\", \"fcdbuat-scan.mashreqbank.corp.network\", \"oracle.jdbc.xa.client.OracleXADataSource\", \"oracle.jdbc.OracleDriver\" "
+
+
+GET JDBC Data source (FCDBMOBDB) Details  :::
+--------------------------------------------------------
+mqsireportproperties MB7BROKER -c JDBCProviders -o VTestPortalDB -r --> Checking the connection details
+
+
+External jar file Path  (commons-codec-1.10.jar) ::: 
+=========================================================
+placed at “/var/mqsi/shared-classes”      directory in 172.24.70.21 and 172.24.70.22 servers.
+
+Windows :::: C:\ProgramData\IBM\MQSI\shared-classes
+
+
+MQSI - Commands
+==========================================================
+1) mqsicreateexecutiongroup <IIBNodeName> -e <execution group name>
+1) mqsideleteexecutiongroup LSQM41BRK -e TEST.MSG -d <flowname>    --> -d For deleting msgflows
+2) mqsiservice -m 1234                                             --> to get the error details of error code in wmb
+3) mqsireaload <BROKERNAME> <EXEGroup Name>
+4) mqsistop LSQM41BRK -i
+5) mqsilist                                                        --> check broker is stoped or not
+6) ./startDSQM03BRK.sh                                             --> Under home/wmbadmin/scripts to start the broker
+7) nohup Gdeploy.sh DeployList &                                   --> To deploy the bar file
+8) mqsideploy LSQM41 -e TEST.MSG -a \home\wmbadmin\deployment\TEST.MSG\SoapTesting.bar
+9) mqsireadbar -b <UAEPaymentGateway.bar> -r > <UAEPaymentGateway.properties>
+10) mqsiapplybaroverride -b $BAR_FILE -p $PROPERTY_FILE
+    mqsiapplybaroverride -b NGI-CustomServiceMF.bar -p NGI-CustomServiceMF.properties
+11) mqsistopmsgflow <BROKER_Name> -e <EXECUTIONGROUP> -w 800                                 --> stopping execution group
+12) mqsistopmsgflow LSQM41BRK -e CBS.BA -m BHEFTSCreateUploadMesageFS_MF -w 200              --> for stopping msg flows
+13) mqsicreatebar -----> -skipWSErrorCheck(Optional) This parameter forces the BAR file compilation process to run, even if errors exist in the workspace ::: 
+14) mqsireportproperties ABKAIX02T -b webadmin -o HTTPConnector -r             -> find the port number of  IIB
+
+IIB 
+==========================================================
+mqsireadbar -b <BarName.bar> -r > <BarName.properties>
+mqsiapplybaroverride -b $BarName.bar -p $BarName.properties -k $BarName
+mqsideploy $BrokerName -e $ExeGrp -a $BarName.bar
+
+
+
+Port setting for Http /Soap
+==========================================================
+Soap default port number : 7800
+Http default port number : 7080
+httpConnectorPort Range Initial value - 7800-7842
+httpsConnectorPort Range Initial value - 7843-7884
+
+mqsireportproperties MB7BROKER -e SUDHAKAR -o HTTPSConnector -r                     --> Display all properties execution level
+mqsireportproperties MB7BROKER -e SUDHAKAR -o HTTPConnector -r                      --> Display all properties execution level
+
+mqsireportproperties MB7BROKER -e SUDHAKAR -o HTTPConnector -n explicitlySetPortNumber   --> Get only port number EXecution group level 
+mqsireportproperties MB7BROKER -e SUDHAKAR -o HTTPSConnector -n explicitlySetPortNumber  --> Get only port number EXecution group level 
+
+mqsichangeproperties MB7BROKER -e SUDHAKAR -o HTTPConnector -n explicitlySetPortNumber -v 7851  --> SET Port number to EXE Group
+mqsichangeproperties MB7BROKER -e SUDHAKAR -o HTTPSConnector -n explicitlySetPortNumber -v 7850 --> SET Port number to EXE Group
+
+mqsireportproperties MB7BROKER -b httplistener -o HTTPSConnector -n port   --> Get default port number Broker Level (we can not use -e and -b at same level)  --> Default 7080                                        
+
+Broker-wide listener properties that apply to HTTP and HTTPS messages are controlled by the HTTPListener object. 
+broker-wide listener :
+mqsireportproperties MB7BROKER -b httplistener -o HTTPListener -n startListener  --> broker-wide listener is active for deployed HTTP 
+																						and SOAP nodes (true means active)
+mqsichangeproperties MB7BROKER -b httplistener -o HTTPListener -n startListener -v false/true 
+
+to disable the specific execution group listener:
+mqsireportproperties MB7BROKER -e SUDHAKAR -o ExecutionGroup -n httpNodesUseEmbeddedListener  --> Should be --> FALSE
+mqsichangeproperties MB7BROKER -e SUDHAKAR -o ExecutionGroup -n httpNodesUseEmbeddedListener -v false/true
+mqsichangeproperties MB7BROKER -e SUDHAKAR -o ExecutionGroup -n soapNodesUseEmbeddedListener -v true
+
+
+Setting jvmDebugPort :::
+==========================================================
+1) mqsireportproperties TNGIIIB -e SUDHAKAR -o ComIbmJVMManager -n jvmDebugPort
+2) mqsichangeproperties TNGIIIB -e SUDHAKAR -o ComIbmJVMManager -n jvmDebugPort -v 8888
+
+FTP :
+==========================================================
+The File Transfer Protocol (FTP) is a standard network protocol used to transfer computer files from one host to another host over a TCP-based network, such as the Internet. FTP is built on a client-server architecture and uses separate control and data connections between the client and the server.
+
+***********************************************FTP SIT ****************************************************************************************
+
+mqsicreateconfigurableservice BrokerName -c FtpServer -o serverTBMS -n serverName,scanDelay,securityIdentity,transferMode,connectionType,remoteDirectory -v 10.6.4.21:21,60,tbmstoefts,ASCII,ACTIVE,/interface/RETAIL/DD/DD_req_files/out
+mqsisetdbparms BrokerName -n ftp::tbmstoefts -u username -p pwd
+mqsireportproperties BrokerName -c FtpServer -o AllReportableEntityNames -r
+mqsichangeproperties NEWBRK -c FtpServer -o server1 -n accountInfo,cipher,compression,connectionType,knownHostsFile,mac,preserveRemoteFileDate,protocol,remoteDirectory,scanDelay,securityIdentity,serverName,strictHostKeyChecking,timeoutSec,transferMode -v "","","","","","","","ftp","","30","asd","10.2.3.12","","","BINARY"
+mqsicreateconfigurableservice BrokerName -c FtpServer -o serverBC -n serverName,scanDelay,securityIdentity,transferMode,connectionType,remoteDirectory -v 10.6.4.19:21,60,bctoeftsSecID,ASCII,ACTIVE,/usr3/live/DD
+mqsisetdbparms BrokerName -n ftp::bctoeftsSecID -u username -p pwd
+
+SFTP : 
+==========================================================
+Which stands for SSH File Transfer Protocol, or Secure File Transfer Protocol, is a separate protocol packaged with SSH that works in a similar way over a secure connection.
+
+***********************************************SFTP ****************************************************************************************
+mqsicreateconfigurableservice BrokerName -c FtpServer -o serverEFTS -n protocol,serverName,scanDelay,securityIdentity,connectionType,remoteDirectory -v SFTP,SalEFTSPrd.corp.btc.com.bh:22,60,esbtoeftsSecID,ACTIVE,C:EFTSSTPAdapterDirectDebitSTPA-1.0.49.v376.2015-11-13STPA-1.0.49.v376.2015-11-13
+mqsisetdbparms BrokerName -n sftp::esbtoeftsSecID -u username -p pwd
+mqsireportproperties BrokerName -c FtpServer -o AllReportableEntityNames -r
+mqsichangeproperties BrokerName -c FtpServer -o serverEFTS -n remoteDirectory -v C:EFTSSTPAdapterDirectDebit
+
+SSL 
+==========================================================
+SSL (Secure Sockets Layer) is the standard security technology for establishing an encrypted link between a web server and a browser. This link ensures that all data passed between the web server and browsers remain private and integral.
+*************************************SSL Start*******************************************************************************************
+mqsireportproperties BrokerName -o BrokerRegistry -r
+
+C:IIB_EFTSSSLBrokerName_EFTS_Keystore.jks
+C:IIB_EFTSSSLBrokerName_EFTS_Truststore.jks
+C:Program FilesIBMMQSI9.0.0.0> mqsichangeproperties BrokerName -o BrokerRegistry -n brokerKeystoreFile -v 'C:IIB_EFTSSSLBrokerName_EFTS_Keystore.jks'
+C:Program FilesIBMMQSI9.0.0.0> mqsichangeproperties BrokerName -o BrokerRegistry -n brokerTruststoreFile -v 'C:IIB_EFTSSSLBrokerName_EFTS_Truststore.jks'
+C:Program FilesIBMMQSI9.0.0.0>mqsireportproperties BrokerName -o BrokerRegistry -r
+C:Program FilesIBMMQSI9.0.0.0>mqsisetdbparms BrokerName -n brokerKeystore::password -u username -p pwd
+C:Program FilesIBMMQSI9.0.0.0>mqsisetdbparms BrokerName -n brokerTruststoree::password -u username -p pwd
+mqsichangeproperties BrokerName -b httplistener -o HTTPListener -n enableSSLConnector -v true
+mqsichangeproperties BrokerName -b httplistener -o HTTPSConnector -n keystoreFile -v 'C:IIB_EFTSSSLBrokerName_EFTS_Keystore.jks'
+mqsichangeproperties BrokerName -b httplistener -o HTTPSConnector -n truststoreFile -v 'C:IIB_EFTSSSLBrokerName_EFTS_Truststore.jks'
+mqsichangeproperties BrokerName -b httplistener -o HTTPSConnector -n keystorePass -v pwd
+mqsichangeproperties BrokerName -b httplistener -o HTTPSConnector -n truststorePass -v pwd
+mqsistop BrokerName
+mqsistart BrokerName
+
+SMTP
+==========================================================
+Simple Mail Transfer Protocol, a protocol for sending e-mail messages between servers. Most e-mail systems that send mail over the Internet use SMTP to send messages from one server to another; the messages can then be retrieved with an e-mail client using either POP or IMAP. In addition, SMTP is generally used to send messages from a mail client to a mail server. This is why you need to specify both the POP or IMAP server and the SMTP server when you configure your e-mail application.
+
+*************************************Email Notification Start***********************************************************
+
+mqsicreateconfigurableservice BrokerName -c SMTP -o NewSMTP -n serverName,securityIdentity -v ipaddress:port,efstsmtp
+mqsisetdbparms BrokerName -n efstsmtp -u username -p pwd
+
+
+################################################################################################################################################################
+ESQL
+
+1) DECLARE cHTTPRequest CHARACTER CAST(InputRoot.BLOB.BLOB as CHARACTER CCSID 1208 ENCODING 1208);
+2) DECLARE cISO8583XML CHARACTER cHTTPRequest;
+3) SET cISO8583XML = REPLACE(cISO8583XML,'&gt;','>');
+4) SET cISO8583XML = REPLACE(cISO8583XML,'&lt;','<');
+5) CREATE LASTCHILD OF Environment.Variables.CCDMRequestMsg DOMAIN('XMLNSC') PARSE( cISO8583XML, 1208,1208);    
+6) -- Set MQMD Format to 'MQSTR'. This is expected to set before sending request to Core.
+   SET OutputRoot.MQMD.Format            = 'MQSTR';
+7) -- logging functinality in java
+   MbElement oResParsername = oResRoot.createElementAsLastChild(MbXMLNSC.PARSER_NAME);
+   sPrepareLog = EAI_Common_Functions.prepareToLog(oResRoot.getFirstElementByPath("/XMLNSC"));
+   sPrepareLog = "[Outbound OldToNew] "+ sPrepareLog;
+   
+8) Set web service URL run time :::
+-------------------------------------
+SET OutputLocalEnvironment.Destination.SOAP.Request.Transport.HTTP.WebServiceURL = UDP_O_SCANTYPE_URL;
+
+9) String to Blob . Blob to Char
+-------------------------------------
+DECLARE outRtBlob BLOB ASBITSTREAM(InputRoot.XMLNSC,1208, 1208 );
+DECLARE outRtBlob1 CHARACTER CAST(outRtBlob AS CHARACTER  CCSID 1208 );
+CREATE LASTCHILD OF OutputRoot DOMAIN ('XMLNSC') PARSE(outRtBlob1,1208,1208);
+
+10) send http/rest url string in encrypted way
+----------------------------------------------------------------
+
+
+11) Apply fix pack
+----------------------------------------------------------------
+mqsireportbroker NGIBROKER
+mqsichangebroker NGIBROKER -f <fixpack version>
+
+################################################################################################################################################################
+JAVA
+
+1) Generate .jar file 
+-------------------------------------------
+from project -> right click "Export.." -> select "Runnable JAR file" (if select "JAR file" - it will embed external jar file as it is , this will not work. 
+if select "Runnable JAR file" - it will unzip the jar files and save as .classes , so program can access)
+ 
+Note : if project not visible on "Launch Configuration" , go to ecplise run - run configuration - java application - new ,select main class
+ 
+2)  run jar file 
+-----------------------
+java -jar C:\Users\thpbsm\Desktop\JDBCConnectionTest_Linux.jar <username> <password>
+
+or 
+
+java -jar C:\Users\thpbsm\Desktop\JDBCConnectionTest_Linux.jar
+
+
+################################################################################################################################################################
+
+*Log.xml
+------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+<appender name="FILE_DEFAULT" class="org.apache.log4j.RollingFileAppender">
+<param name="Threshold" value="DEBUG"/>
+<param name="File" value="/home/wmbadmin/logs/UAEPGS.log"/>
+<param name="Encoding" value="utf-8" />
+<param name="MaxFileSize" value="20000KB" />
+<param name="MaxBackupIndex" value="10" />
+<param name="Append" value="True" />
+<layout class="org.apache.log4j.PatternLayout">
+<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss,SSS} %-5p [%-10t] %m%n"/>
+</layout>
+</appender>
+
+<logger name="default">
+<level value="DEBUG"/>
+<appender-ref ref="FILE_DEFAULT"/>
+</logger>
+ 
+</log4j:configuration>
+
+
+
+################################################################################################################################################################
+
+1) Getting http header details from message header
+=======================================================
+                HTTPInputHeader
+
+                                                X-Original-HTTP-Command:CHARACTER:POST http://10.4.6.86:7080/CCDM HTTP/1.1
+                                                Host:CHARACTER:10.4.6.86:7080
+                                                Content-Length:CHARACTER:2541
+
+                                                Cookie:CHARACTER:
+
+                                                Content-Type:CHARACTER:
+                                                X-Remote-Addr:CHARACTER:     172.24.181.51
+                                                X-Remote-Host:CHARACTER:     172.24.181.51
+                                                X-Server-Name:CHARACTER:     10.4.6.86
+                                                X-Server-Port:CHARACTER:         7080
+                                                X-Scheme:CHARACTER:http
+
+
+       HTTPInputHeader
+
+                X-Original-HTTP-Command:CHARACTER:POST http://10.4.6.86:7080/HTTPServices HTTP/1.1
+                Host:CHARACTER:10.4.6.86:7080
+                Content-Length:CHARACTER:28
+                Content-Type:CHARACTER:xml
+                Cookie:CHARACTER:1245245536555541
+                X-Remote-Addr:CHARACTER:172.24.141.26
+                X-Remote-Host:CHARACTER:172.24.141.26
+                X-Server-Name:CHARACTER:10.4.6.86
+                X-Server-Port:CHARACTER:7080
+                X-Scheme:CHARACTER:http
+				
+				
+----------------------------------------------------------------------------------
+
+LocalEnvironment
+	Destination 
+			SOAP
+					Request
+							Operation:CHARACTER:SubmitCertificatesRequest
+							
+							++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Message
+	Properties
+			MessageSet:CHARACTER:NGI_IssueOfStudentCertificate_MOE_MS
+			MessageType:CHARACTER:
+			MessageFormat:CHARACTER:
+			Encoding:INTEGER:546
+			CodedCharSetId:INTEGER:1208
+			Transactional:BOOLEAN:false
+			Persistence:BOOLEAN:false
+			CreationTime:TIMESTAMP:java.util.GregorianCalendar[time=1465889109198,areFieldsSet=true,areAllFieldsSet=false,lenient=true,zone=sun.util.calendar.ZoneInfo[id="Asia/Bahrain",offset=10800000,dstSavings=0,useDaylight=false,transitions=4,lastRule=null],firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=?,YEAR=2016,MONTH=5,WEEK_OF_YEAR=?,WEEK_OF_MONTH=?,DAY_OF_MONTH=14,DAY_OF_YEAR=?,DAY_OF_WEEK=?,DAY_OF_WEEK_IN_MONTH=?,AM_PM=0,HOUR=10,HOUR_OF_DAY=10,MINUTE=25,SECOND=9,MILLISECOND=198,ZONE_OFFSET=?,DST_OFFSET=?]
+			ExpirationTime:INTEGER:-1
+			Priority:INTEGER:0
+			ReplyIdentifier:BLOB:[B@6ba46ba4
+			ReplyProtocol:CHARACTER:SOAP-AXIS2
+			Topic:UNKNOWN:null
+			ContentType:CHARACTER:text/xml; charset=utf-8
+			IdentitySourceType:CHARACTER:
+			IdentitySourceToken:CHARACTER:
+			IdentitySourcePassword:CHARACTER:
+			IdentitySourceIssuedBy:CHARACTER:
+			IdentityMappedType:CHARACTER:
+			IdentityMappedToken:CHARACTER:
+			IdentityMappedPassword:CHARACTER:
+			IdentityMappedIssuedBy:CHARACTER:
+	HTTPResponseHeader
+			X-Original-HTTP-Status-Line:CHARACTER:HTTP/1.1 200 OK
+			X-Original-HTTP-Status-Code:INTEGER:200
+			Content-Length:CHARACTER:554
+			Content-Type:CHARACTER:text/xml; charset=utf-8
+			Server:CHARACTER:Microsoft-IIS/7.5
+			X-Powered-By:CHARACTER:ASP.NET
+			Date:CHARACTER:Tue, 14 Jun 2016 10:25:09 GMT
+	SOAP
+			Context
+					operation:CHARACTER:SubmitCertificatesRequest
+					operationType:CHARACTER:REQUEST_RESPONSE
+					portType:CHARACTER:IssueOfStudentCertificate
+					portTypeNamespace:CHARACTER:http://MOE.IssueOfStudentCertificate.bh/
+					port:CHARACTER:ep1
+					service:CHARACTER:IssueOfStudentCertificate
+					serviceNamespace:CHARACTER:http://tempuri.org/
+					fileName:CHARACTER:/var/mqsi/components/MB7BROKER/e4eb94e5-4c01-0000-0080-a6fa897b8c70/config/XSD/NGI_IssueOfStudentCertificate_MOE_MS/org/tempuri/IssueOfStudentCertificate_1.wsdl
+					SOAP_Version:CHARACTER:1.1
+					Namespace
+							s:CHARACTER:http://schemas.xmlsoap.org/soap/envelope/
+			Header
+			Body
+					SubmitCertificatesRequestResponse
+							xmlns:CHARACTER:http://MOE.IssueOfStudentCertificate.bh/
+							SubmitCertificatesRequestResult
+									a:CHARACTER:http://schemas.datacontract.org/2004/07/ServiceEntities
+									i:CHARACTER:http://www.w3.org/2001/XMLSchema-instance
+									ResponseCode:CHARACTER:100
+									ResponseDescription:CHARACTER:Error
+									PostalTrackingCode
+											nil:BOOLEAN:true
+									ReceiptNumber
+											nil:BOOLEAN:true
+											
+1) -- Construct other request parameters
+DECLARE roadNumber CHARACTER Environment.Variables.VALIDATE_VEHICLES[K].Road;
+IF(LENGTH(TRIM(roadNumber)) >= 0)THEN
+	IF(LENGTH(TRANSLATE(roadNumber, '0123456789', '')) = 0)THEN
+		-- If RoadNumber is pure numeric then send the RoadNumber field
+											
+2) 	value is null or not present if cast the char to INTEGER - it will give default as 1
+
+3) CAST(Environment.Variables.VEHICLE_DETAILS[I].RECEIPT_DATE AS CHARACTER FORMAT 'yyyyMMddHHmmss');
+
+4) SET OwnerIDType   = COALESCE(InputRoot.SOAP.Body.ngi:RetrieveSavedVehicleChassisNumbersRequest.OwnerIDType, '%'); %%%%%%%%%%%%%%%%%%%%%%%%%%%%%test 
+   SET OwnerIDNumber = COALESCE(InputRoot.SOAP.Body.ngi:RetrieveSavedVehicleChassisNumbersRequest.OwnerIDNumber, '%');
+   SET AgentID 	  = COALESCE(InputRoot.SOAP.Body.ngi:RetrieveSavedVehicleChassisNumbersRequest.AgentID, '%');
+   DECLARE IsNewRequest BOOLEAN COALESCE(InputRoot.SOAP.Body.ngi:RetrieveSavedVehicleChassisNumbersRequest.IsNewRequest, NULL);
+			
+    -- Check for mandatory fields/values
+	IF(OwnerIDType = '' OR OwnerIDNumber = '' OR AgentID = '' OR 
+	
+5) if this is a non-microsoft service contact the service vendor , and refer to service-specific error 2195
+1) AMQMSRVN -user EGA\thpbsm -password zxc@1234
+AMQMSRVN -user EGA\Thpbsm@ega.gov.bh -password zxc@1234
+
+way 2) Resolving the problem
+The following steps can help resolve this issue to varying degrees.
+1. Recreate the WMQ MQSeries service with the following series of commands:
+amqsvc -UNINSTALL
+And then use the command below to add it back:
+amqsvc -INSTALL
+	
+				
+######################################################################################################################################################
+NGI
+
+Central Bus - Logic to call http with authentication and operation
+
+DECLARE cStr CHARACTER '<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+<x:Header>
+<tem:Context>
+<tem:Equipment>
+<tem:Reference>TSC</tem:Reference>
+</tem:Equipment>
+<tem:AccessId>1</tem:AccessId>
+<tem:SessionId>1</tem:SessionId>
+<tem:AccessType>Agent</tem:AccessType>
+<tem:CultureName>en-US</tem:CultureName>
+<tem:UserIp>192.168.1.1</tem:UserIp>
+</tem:Context>
+</x:Header>
+<x:Body>
+<tem:Search>
+<tem:creationDateFilter>Undefined</tem:creationDateFilter>
+<tem:name>Hatem</tem:name>
+<tem:filterName>ContainsString</tem:filterName>
+<!--<tem:zipCode>33088859</tem:zipCode>-->
+<tem:filterZipCode>Undefined</tem:filterZipCode>
+<tem:birthdayDateFilter>Undefined</tem:birthdayDateFilter>
+<tem:filterCity>Undefined</tem:filterCity>
+<tem:returnMaxNumber>0</tem:returnMaxNumber>
+<tem:resultState>Undefined</tem:resultState>
+</tem:Search>
+</x:Body>
+</x:Envelope>
+
+
+DECLARE cAuthentication CHARACTER 'a4f0ceb4b0fd2b4da5e3b1dd72a43ab299e787ce1';
+DECLARE cOperation      CHARACTER 'WS_User.asmx?Op=Search';
+
+SET OutputRoot.Properties = InputRoot.Properties;
+SET OutputRoot.BLOB.BLOB = CAST(cStr AS BLOB CCSID 1208);        --> request body in BLOB format
+
+-- SET OutputLocalEnvironment.Destination.HTTP.RequestURL                 = 'http://bahrainbusit.com/egov/communication_hub.php';
+-- SET OutputLocalEnvironment.Destination.HTTP.QueryString.Authentication = cAuthentication;
+-- SET OutputLocalEnvironment.Destination.HTTP.QueryString.Operation      = cOperation;
+-- SET OutputLocalEnvironment.Destination.HTTP.QueryString                = cStr;
+
+SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'http://bahrainbusit.com/egov/communication_hub.php'|| 'Authentication=' || cAuthentication || 'Operation=' || cOperation;
+
+				
+##########################################################################################################################################################
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Body>
+      <soapenv:Fault>
+         <faultcode>soapenv:Server</faultcode>
+         <faultstring>BIP3113E: Exception detected in message flow com.ngi.PropertyContractRegistrationFlow.PropertyContractRegSOAP (broker MB7BROKER)</faultstring>
+         <faultactor>ngi</faultactor>
+         <detail>
+            <Text>BIP3752E: The SOAP Reply node 'com.ngi.PropertyContractRegistrationFlow.PropertyContractRegResponse' encountered an error while processing a reply message. 
+An error occurred during reply message processing. 
+See previous error messages to determine the cause of the error. : /build/S700_P/src/WebServices/WSLibrary/ImbSOAPReplyNode.cpp: 386: ImbSOAPReplyNode::evaluate: ComIbmSOAPReplyNode: com/ngi/PropertyContractRegistrationFlow#FCMComposite_1_3
+BIP3605E: The SOAP logical tree cannot be serialized. 
+There is a problem with the SOAP logical tree format. 
+Review further error messages for an indication to the cause of the error. Check that the SOAP logical supplied is correctly formatted. : /build/S700_P/src/WebServices/WSLibrary/ImbSOAPParser.cpp: 1291: ImbSOAPParser::refreshBitStreamFromElementsInner: : 
+BIP3602E: The Web service payload ''{soapenv}Fault'' does not match an operation described by WSDL binding ''NGI-PropertyContractRegServiceExport1_NGI-PropertyContractRegServiceHttpBinding'' in file ''/var/mqsi/components/MB7BROKER/2d1a4f5e-5101-0000-0080-dc4ab5db35cf/config/XSD/PropertyContractRegistrationSOAP/propertycontractregistrationservice/com/ngi/bpel/ngipropertycontractregservice/PropertyContractRegistrationService_NGI-PropertyContractRegServiceExport1.wsdl''. 
+The first child of the SOAP Body does not correspond to any of the operations defined in the specified WSDL definition. 
+Check that the correct WSDL definition was deployed. : /build/S700_P/src/WebServices/WSLibrary/ImbSOAPParser.cpp: 711: ImbSOAPParser::refreshBitStreamFromElementsInner: :</Text>
+         </detail>	
+      </soapenv:Fault>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <SOAP-ENV:Body>
+      <SOAP-ENV:Fault>
+         <faultcode>SOAP-ENV:Server</faultcode>
+         <faultstring>A timeout occurred during processing</faultstring>
+         <faultactor>/NGI_Scheduler_Testflow</faultactor>
+         <detail>
+            <text>Timeout. Broker MB7BROKER did not provide a response within the specified time interval (10 seconds). The message reached the main flow, but timed out during processing. It was then processed by the timeout flow, but timed out again during processing.</text>
+         </detail>
+      </SOAP-ENV:Fault>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+SOAP
+	Context
+			operation:CHARACTER:null
+			operationType:CHARACTER:GATEWAY
+			portType:CHARACTER:
+			portTypeNamespace:CHARACTER:
+			port:CHARACTER:
+			service:CHARACTER:ComIbmBrokerGenericGatewayService
+			fileName:CHARACTER:
+			SOAP_Version:CHARACTER:1.1
+			Namespace
+					SOAP-ENV:CHARACTER:http://schemas.xmlsoap.org/soap/envelope/
+					xsi:CHARACTER:http://www.w3.org/2001/XMLSchema-instance
+					xsd:CHARACTER:http://www.w3.org/2001/XMLSchema
+			_XmlDeclaration
+					Version:CHARACTER:1.0
+					Encoding:CHARACTER:UTF-8
+	Header
+	Body
+			Fault
+					faultcode:CHARACTER:SOAP-ENV:Server
+					faultstring:CHARACTER:A timeout occurred during processing
+					faultactor:CHARACTER:/NGI_Scheduler_Testflow
+					detail
+							text:CHARACTER:Timeout. The Broker MB7BROKER did not provide a response within the specified time interval (15 seconds). The message reached the main flow, but timed out during processing. It was then given to the the timeout flow for processing.
+
+
+
+BRK1e3063b86-4f09-11e6-a271-0a4743060000
+BRK1e3063b864f0911e6a2710a4743060000
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+SOAP Header information 
+================================
+InputRoot.
+HTTPInputHeader
+X-Original-HTTP-Command:CHARACTER:POST http://10.71.13.62:7802/NGI_BatchUpdateMOT HTTP/1.1
+Accept-Encoding:CHARACTER:gzip,deflate
+Content-Type:CHARACTER:text/xml;charset=UTF-8
+SOAPAction:CHARACTER:"http://tempuri.org/IBLISCommInfo/GetApplicationCommercialInformation"
+Content-Length:CHARACTER:434
+Host:CHARACTER:10.71.13.62:7802
+Connection:CHARACTER:Keep-Alive
+User-Agent:CHARACTER:Apache-HttpClient/4.1.1 (java 1.5)
+X-Remote-Addr:CHARACTER:10.71.13.62
+X-Remote-Host:CHARACTER:10.71.13.62
+X-Server-Name:CHARACTER:10.71.13.62
+X-Server-Port:CHARACTER:7802
+X-Query-String:CHARACTER:
+X-Scheme:CHARACTER:http
+
+LocalEnvironment
+Destination
+SOAP
+Reply
+ReplyIdentifier:BLOB:[B@60f060f0
+SOAP
+Input
+Timeout
+OriginalClientWaitTime:INTEGER:180
+OriginalMessageMadeTheFlow:BOOLEAN:true
+OriginalRequestIdentifier:BLOB:[B@64e464e4
+OriginalInboundMessage:BLOB:[B@65a265a2
+Transport
+HTTP
+MaxClientWaitTime:INTEGER:10
+
+
+SOAP Operation Name :
++++++++++++++++++++++++
+LocalEnvironment
+	Destination
+			SOAP
+					Request
+							Operation:CHARACTER:RenewPersonalLicenses
+							
+							
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Multipart data formats 'MIME'
+
+Message
+	Properties
+			MessageSet:CHARACTER:
+			MessageType:CHARACTER:
+			MessageFormat:CHARACTER:
+			Encoding:INTEGER:546
+			CodedCharSetId:INTEGER:1208
+			Transactional:BOOLEAN:false
+			Persistence:BOOLEAN:false
+			CreationTime:TIMESTAMP:java.util.GregorianCalendar[time=1507094254120,areFieldsSet=true,areAllFieldsSet=false,lenient=true,zone=sun.util.calendar.ZoneInfo[id="Asia/Bahrain",offset=10800000,dstSavings=0,useDaylight=false,transitions=4,lastRule=null],firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=?,YEAR=2017,MONTH=9,WEEK_OF_YEAR=?,WEEK_OF_MONTH=?,DAY_OF_MONTH=4,DAY_OF_YEAR=?,DAY_OF_WEEK=?,DAY_OF_WEEK_IN_MONTH=?,AM_PM=0,HOUR=8,HOUR_OF_DAY=8,MINUTE=17,SECOND=34,MILLISECOND=120,ZONE_OFFSET=?,DST_OFFSET=?]
+			ExpirationTime:INTEGER:-1
+			Priority:INTEGER:0
+			ReplyIdentifier:BLOB:[B@225e225e
+			ReplyProtocol:CHARACTER:SOAP-HTTP
+			Topic:UNKNOWN:null
+			ContentType:CHARACTER:multipart/form-data; boundary=----WebKitFormBoundaryXAUdWTrxtvldmRl6
+			IdentitySourceType:CHARACTER:
+			IdentitySourceToken:CHARACTER:
+			IdentitySourcePassword:CHARACTER:
+			IdentitySourceIssuedBy:CHARACTER:
+			IdentityMappedType:CHARACTER:
+			IdentityMappedToken:CHARACTER:
+			IdentityMappedPassword:CHARACTER:
+			IdentityMappedIssuedBy:CHARACTER:
+	HTTPInputHeader
+			X-Original-HTTP-Command:CHARACTER:POST http://10.71.67.6:7851/jsontosoap HTTP/1.1
+			X-Server-Name:CHARACTER:10.71.67.6
+			User-Agent:CHARACTER:Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
+			X-Remote-Addr:CHARACTER:10.71.13.62
+			Origin:CHARACTER:chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop
+			Postman-Token:CHARACTER:0b042bcb-9288-8860-af46-25e1b96b0689
+			Host:CHARACTER:10.71.67.6:7851
+			Accept:CHARACTER:*/*
+			X-Query-String:CHARACTER:
+			Content-Type:CHARACTER:multipart/form-data; boundary=----WebKitFormBoundaryXAUdWTrxtvldmRl6
+			Cache-Control:CHARACTER:no-cache
+			X-Server-Port:CHARACTER:7851
+			Accept-Encoding:CHARACTER:gzip, deflate
+			X-Scheme:CHARACTER:http
+			X-Remote-Host:CHARACTER:10.71.13.62
+			Content-Length:CHARACTER:332635
+			Accept-Language:CHARACTER:en-US,en;q=0.8,fr;q=0.6
+			Connection:CHARACTER:keep-alive
+	MIME
+			Content-Type:CHARACTER:multipart/form-data; boundary=----WebKitFormBoundaryXAUdWTrxtvldmRl6
+			Parts
+					Part
+							Content-Disposition:CHARACTER:form-data; name="payload"
+							Data
+									BLOB
+											BLOB:BLOB:[B@41bc41bc
+					Part
+							Content-Disposition:CHARACTER:form-data; name="attachment"; filename="Citibank India.pdf"
+							Content-Type:CHARACTER:application/pdf
+							Data
+									BLOB
+											BLOB:BLOB:[B@52225222
+
+########################################################################################################################################################
+ 
+CREATE COMPUTE MODULE SCPaymentService_MF_Compute
+CREATE FUNCTION Main() RETURNS BOOLEAN
+BEGIN
+
+DECLARE MINISTRY_IP CHARACTER '10.11.29.18';
+DECLARE ServiceOperationNGI CHARACTER InputLocalEnvironment.SOAP.NGIEnvelope.SOAP.Context.operation;
+SET Environment.Variables.ServiceOperation = ServiceOperationNGI;
+
+SET OutputLocalEnvironment.Destination.HTTP.RequestLine.Method = 'GET';
+SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'http://localhost:7080/JSONTest';
+SET OutputRoot.HTTPRequestHeader."X-Original-HTTP-URL" = 'http://localhost:7080/JSONTest';
+SET OutputRoot.HTTPRequestHeader."Content-Type" = 'application/json';
+
+SET OutputLocalEnvironment.Destination.HTTP.KeepAlive = TRUE;
+
+-- way 1
+
+-- SET OutputRoot.JSON.Data.agentCprNumber = InputRoot.XMLNSC.ns1:SubmitDomesticWorkerRequest.SmartCardDetails.Payment.channel;
+-- SET OutputRoot.JSON.Data.appCr = InputRoot.XMLNSC.ns1:SubmitDomesticWorkerRequest.SmartCardDetails.Payment.servicetype;
+-- SET OutputRoot.JSON.Data.appDate = CAST(InputRoot.XMLNSC.ns1:SubmitDomesticWorkerRequest.SmartCardDetails.Payment.totalamount AS INTEGER);
+-- SET OutputRoot.JSON.Data.(JSON.Array)empCprNumber.Item[1] = InputRoot.XMLNSC.ns1:SubmitDomesticWorkerRequest.SmartCardDetails.Payment.transactionid;
+-- SET OutputRoot.JSON.Data.(JSON.Array)empCprNumber.Item[2] = InputRoot.XMLNSC.ns1:SubmitDomesticWorkerRequest.SmartCardDetails.Payment.transactionid;
+-- 
+-- OR
+-- SET OutputRoot.JSON.Data.empCprNumber TYPE = JSON.Array;
+-- SET OutputRoot.JSON.Data.empCprNumber.Item[1] = InputRoot.XMLNSC.ns1:SubmitDomesticWorkerRequest.SmartCardDetails.Payment.transactionid;
+-- SET OutputRoot.JSON.Data.empCprNumber.Item[2] = InputRoot.XMLNSC.ns1:SubmitDomesticWorkerRequest.SmartCardDetails.Payment.transactionid;
+-- 
+-- -- {"agentCprNumber":"11","appCr":"11","appDate":11,"empCprNumber":["11","11"]}
+-- 
+-- --CREATE FIELD OutputRoot.JSON.Data IDENTITY (JSON.Array)Data;
+-- --CREATE LASTCHILD OF OutputRoot.JSON.Data TYPE NameValue NAME 'Item' VALUE 'valueA';
+-- --CREATE LASTCHILD OF OutputRoot.JSON.Data TYPE NameValue NAME 'Item' VALUE 'valueB';
+-- 
+
+--- way 2 -- not working parser error 
+-- DECLARE ccc BLOB ASBITSTREAM(InputRoot.XMLNSC.ns1:SubmitDomesticWorkerRequest.SmartCardDetails);
+-- DECLARE cHTTPRequest CHARACTER CAST(ccc as CHARACTER CCSID 1208 ENCODING 1208);
+-- CREATE LASTCHILD OF Environment.Variables.CCDMRequestMsg DOMAIN('JSON') PARSE( cHTTPRequest, 1208,1208);
+-- SET OutputRoot.JSON.Data = Environment.Variables.CCDMRequestMsg;
+
+-- way 3 
+
+-- SET OutputRoot.JSON.Data = InputRoot.XMLNSC.(XMLNSC.Element)*[1];
+--{"SmartCardDetails":{"Payment":{"uthorizationcode":"11","businessdate":"11","cardtype":"11","channel":"11","servicetype":"11","totalamount":"11","transactionid":"11","updateddate":"11"}}}
+SET OutputRoot.JSON.Data = InputRoot.XMLNSC.ns1:SubmitDomesticWorkerRequest.(XMLNSC.Element)*[1];
+
+-- {"Payment":{"uthorizationcode":"11","businessdate":"11","cardtype":"11","channel":"11","servicetype":"11","totalamount":"11","transactionid":"11","updateddate":"11"}}
+
+
+DECLARE ccc BLOB ASBITSTREAM(OutputRoot.JSON.Data);
+DECLARE cHTTPRequest CHARACTER CAST(ccc as CHARACTER CCSID 1208 ENCODING 1208);
+CREATE LASTCHILD OF Environment.Variables.CCDMRequestMsg DOMAIN('JSON') PARSE( cHTTPRequest, 1208,1208);
+
+SET Environment.Variables.Log4j.LogText111 = OutputRoot.JSON;
+
+DECLARE outRtBlob BLOB ASBITSTREAM(OutputRoot.JSON, 1208, 1208 );
+DECLARE outRtBlob1 CHARACTER CAST(outRtBlob AS CHARACTER CCSID 1208 );
+SET Environment.Variables.Log4j.LogText2222 = outRtBlob1;
+
+SET Environment.Variables.Log4j.LogText = 'Message is : ' || '$XML:/Body$';
+
+RETURN TRUE;
+END;
+END MODULE;
+ 
+########################################################################################################################################################
+ 
+Date format changes 
+ 
+DECLARE cCrntTimestamp CHARACTER CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyy-MM-dd HH:mm:ss');
+DECLARE cApmntDateTime CHARACTER FIELDVALUE(OutputRoot.SOAP.Body.ns:RetriveDrivingTestAppointmentDetailsResponse.RetriveDrivingTestAppointmentDetails.AppointmentDetails[i].AppointmentDate) 
+			|| ' ' ||  FIELDVALUE(OutputRoot.SOAP.Body.ns:RetriveDrivingTestAppointmentDetailsResponse.RetriveDrivingTestAppointmentDetails.AppointmentDetails[i].AppointmentTime);
+DECLARE tApmntDateTime TIMESTAMP CAST(cApmntDateTime AS TIMESTAMP FORMAT 'yyyy-MM-dd HH:mm:ss') - INTERVAL '24' HOUR;
+SET cApmntDateTime = CAST(tApmntDateTime AS CHARACTER FORMAT 'yyyy-MM-dd HH:mm:ss') ;
+DECLARE cIsUpdatable CHARACTER FIELDVALUE(InputRoot.SOAP.Body.ns1:SearchAppointmentTestResponse.searchAppointmentTest.isUpdatable);
+IF (NOT(cCrntTimestamp<cApmntDateTime))
+
+--DECLARE dateStr DATE CAST(InputRoot.SOAP.Body.ns:RetrieveGDTDetails.RetrieveGDTDetailsRequest.eKeyTimestamp As DATE FORMAT 'yyyyMMdd');		
+--DECLARE convDate DATE CAST(dateStr AS DATE FORMAT 'yyyy-MM-DD');
+
+DECLARE dateStr TIMESTAMP CAST(InputRoot.SOAP.Body.ns:RetrieveGDTDetails.RetrieveGDTDetailsRequest.eKeyTimestamp As TIMESTAMP FORMAT 'yyyyMMdd');		
+DECLARE convDate CHARACTER CAST(dateStr AS CHARACTER FORMAT 'yyyy-MM-dd');
+							
+							
+######################################################################  IIB 10 ###############################################################
+
+-> McAfee Blocking - network sharing folders
+gpedit.msc -> Administrative  templates -> lanman workstation -> enable insecure guest logons
+
+PATH 
+---------
+JAR files placed in the top level shared-classes directory are made available to all brokers and all integration servers
+C:\ProgramData\IBM\MQSI\config\<TESTNODE_Thpbsm>\shared-classes 
+
+JAR files placed in the integration server shared-classes directory allow only a single defined integration server to access them
+C:\ProgramData\IBM\MQSI\config\<TESTNODE_Thpbsm>\<default>\shared-classes
+
+Windows 7/10
+BROKER_INSTALL_DIR C:\Program Files\IBM\IIB\10.0.0.0 
+MQSI_WORKPATH1 C:\ProgramData\IBM\MQSI  (Integration Node and Integration Services)
+
+Linux, AIX, Solaris, HP-UX 
+BROKER_INSTALL_DIR /opt/IBMiib-10.0.0.0 
+MQSI_WORKPATH1 /var/mqsi (Integration Node and Integration Services)
+
+
+C:\Windows\System32\cmd.exe /T:0A /K "title IBM Integration Console 10.0.0.12 & cd C:\Program Files\IBM\IIB\10.0.0.12\ & IIB.cmd"
+
+https://www.ibm.com/support/knowledgecenter/en/SSMKHH_9.0.0/com.ibm.etools.mft.doc/ab00015_.htm
+
+C:\Program Files\IBM\IIB\10.0.0.3>mqsireportbroker TESTNODE_Thpbsm
+BIP8927I: Integration node name 'TESTNODE_Thpbsm'
+ Last mqsistart path  = 'C:\Program Files\IBM\IIB\10.0.0.3\server'
+ mqsiprofile install path  = 'C:\Program Files\IBM\IIB\10.0.0.3\server'
+ Work path = 'C:\ProgramData\IBM\MQSI'
+ Integration node UUID = '1b450c8b-6f7e-4e87-a43c-a2eef604e807'
+ Process id = '0'
+ Queue Manager = ''
+ User lil path = ''
+ User exit path = ''
+ Active user exits = ''
+ LDAP principal = ''
+ LDAP credentials = ''
+ ICU converter path = ''
+ Trusted (fastpath) Queue Manager application = 'false'
+ Configuration change timeout = '300' seconds
+ Internal configuration timeout = '60' seconds
+ Statistics major interval = '60' minutes
+ Operation mode = 'advanced'
+ Fixpack capability level = 'all' (effective level '10.0.0.3')
+ Integration node registry format = 'v10.0'
+ Administration security = 'inactive'
+ Multi-instance integration node = 'false'
+ Shared Work Path = 'none'
+ Start as WebSphere MQ Service = 'undefined'
+ HTTP listener port = '7080'
+ Cache manager policy = 'disabled'
+ Cache manager port range = '2800-2819'
+ Integration registry hostname = ''
+ Default integration node CCSID = '5348'
+
+
+ Log4j
+ ++++++++++++++
+ -> Place $MQSI_WORKPATH/shared-classes  • Log4jLoggingNode_v1.2.2.jar • jakarta-oro-2.0.4.jar • log4j-1.2.8.jar
+ -> C:\Program Files\IBM\IIB\10.0.0.12\server\jplugin • Log4jLoggingNode_v1.2.2.jar
+ -> Unzip the iam3.zip file and extract the Log4jLoggingPluginFeature_v1.1.zip file + add  Help → Install New Software
+ 
+
+ 1) Node label name should unique 
+ 2) a) If sub flow is there with .msgflow extension , that should convert to .subflow (.msgflow right click select convert to.subflow)
+    b) still , getting error , Then right client on the sub flow - > select locate sub flow 
+	
+ 3) ESQL issues : 
+    1) Node name, EXTERNAL variable, NameSpace should be unique , in flow or in the same schema under same integration server 
+    2) EXTERNAL variable should not be empty 
+    3) If common subflows, it will be overriding with existing one (no issues)
+	
+ 4) If you avoid name space issues ,EXTERNAL variable ,  create a IIB application with dependent resources 
+    - select files/project under independent resource , right click convert to application or library analyse and convert multiple projects
+	
+	
+	
+ 5) Mapping Node :	
+	
+
+	
+	
+libraries:	
+Consider using libraries for the following functions:
+To group common types of resource (such as all your ESQL routines)
+To group resources by function (such as all your error-handling routines)
+To share routines and definitions across multiple teams or projects
+To use different versions of a coherent set of routines and definitions
+Two types of library exist in IBM® Integration Bus: shared libraries and static libraries.
+
+Consider a scenario when you want to develop a set of common resources and make them available to multiple applications.
+Shared libraries
+If you want to deploy and manage just one copy of those common resources, use a shared library. A shared library can be deployed directly to an integration server. Any application can reference the resources in that deployed shared library. If that shared library is updated, the changes are immediately visible to all referencing applications.
+Static libraries
+If you want each application to use a different version of the contained resource, use a static library. Each application that references that static library is deployed with its own private copy of that library. If a static library is updated, each application that references it must be repackaged and redeployed with the updated static library.	
+
+A shared library can refer to other shared libraries only. Similarly, a static library can refer to other static libraries only.
+
+
+
+
+
++++++++++++++++++++++++
+
+
+Aggregation
+  Template
+    queuePrefix=''
+    timeoutSeconds=''
+CICSConnection
+  CICSConnectionTemplate
+    cicsServer=''
+    clientApplid=''
+    clientQualifier=''
+    connectionTimeoutSecs='30'
+    gatewayURL='local:'
+    requestTimeoutSecs='120'
+    securityIdentity=''
+CORBA
+  CORBATemplate
+    namingService=''
+    objectReferenceName=''
+Collector
+  Template
+    collectionExpirySeconds=''
+    queuePrefix=''
+EISProviders
+  JDEdwards
+    jarsURL='default_Path'
+    nativeLibs='default_Path'
+  PeopleSoft
+    jarsURL='default_Path'
+    nativeLibs='default_Path'
+  SAP
+    jarsURL='default_Path'
+    nativeLibs='default_Path'
+  Siebel
+    jarsURL='default_Path'
+    nativeLibs='default_Path'
+    siebelPropertiesURL=''
+  Twineball
+    jarsURL='default_Path'
+    nativeLibs='default_Path'
+EmailServer
+  EmailTemplate
+    securityIdentity=''
+    serverName=''
+JDBCProviders
+  DB2
+    connectionUrlFormat='jdbc:db2://[serverName]:[portNumber]/[databaseName]:user=[user];password=[password];'
+    connectionUrlFormatAttr1=''
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='default_Database_Name'
+    databaseType='DB2 Universal Database'
+    databaseVersion='9.1'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='/opt/ibm/db2/V9.1/'
+    maxConnectionPoolSize='0'
+    portNumber='50000'
+    securityIdentity='default_User@default_Server'
+    serverName='default_Database_Server_Name'
+    type4DatasourceClassName='com.ibm.db2.jcc.DB2XADataSource'
+    type4DriverClassName='com.ibm.db2.jcc.DB2Driver'
+  Informix
+    connectionUrlFormat='jdbc:informix-sqli://[serverName]:[portNumber]/[databaseName]:informixserver=[connectionUrlFormatAttr1];user=[user];password=[password]'
+    connectionUrlFormatAttr1='<servername>'
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='default_Database_Name'
+    databaseType='Informix'
+    databaseVersion='default_Database_Version'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='<JDBC DRIVER INSTALL DIRECTORY>/lib'
+    maxConnectionPoolSize='0'
+    portNumber='1536'
+    securityIdentity='default_User@default_Server'
+    serverName='default_Database_Server_Name'
+    type4DatasourceClassName='com.informix.jdbcx.IfxXADataSource'
+    type4DriverClassName='com.informix.jdbc.IfxDriver'
+  Informix_With_Date_Format
+    connectionUrlFormat='jdbc:informix-sqli://[serverName]:[portNumber]/[databaseName]:informixserver=[connectionUrlFormatAttr1];user=[user];password=[password];dbdate=[connectionUrlFormatAttr2]'
+    connectionUrlFormatAttr1='<servername>'
+    connectionUrlFormatAttr2='MDY4/'
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='default_Database_Name'
+    databaseType='Informix'
+    databaseVersion='default_Database_Version'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='<JDBC DRIVER INSTALL DIRECTORY>/lib'
+    maxConnectionPoolSize='0'
+    portNumber='1536'
+    securityIdentity='default_User@default_Server'
+    serverName='default_Database_Server_Name'
+    type4DatasourceClassName='com.informix.jdbcx.IfxXADataSource'
+    type4DriverClassName='com.informix.jdbc.IfxDriver'
+  Microsoft_SQL_Server
+    connectionUrlFormat='jdbc:sqlserver://[serverName]:[portNumber];DatabaseName=[databaseName];user=[user];password=[password]'
+    connectionUrlFormatAttr1=''
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='default_Database_Name'
+    databaseType='Microsoft SQL Server'
+    databaseVersion='default_Database_Version'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='default_Path'
+    maxConnectionPoolSize='0'
+    portNumber='1433'
+    securityIdentity='default_User@default_Server'
+    serverName='default_Database_Server_Name'
+    type4DatasourceClassName='com.microsoft.sqlserver.jdbc.SQLServerXADataSource'
+    type4DriverClassName='com.microsoft.sqlserver.jdbc.SQLServerDriver'
+  Oracle
+    connectionUrlFormat='jdbc:oracle:thin:[user]/[password]@[serverName]:[portNumber]:[connectionUrlFormatAttr1]'
+    connectionUrlFormatAttr1='<SID>'
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='default_Database_Name'
+    databaseType='Oracle'
+    databaseVersion='default_Database_Version'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='<ORACLE HOME>/jdbc/lib'
+    maxConnectionPoolSize='0'
+    portNumber='1521'
+    securityIdentity='default_User@default_Server'
+    serverName='default_Database_Server_Name'
+    type4DatasourceClassName='oracle.jdbc.xa.client.OracleXADataSource'
+    type4DriverClassName='oracle.jdbc.OracleDriver'
+  Sybase_JConnect6_05
+    connectionUrlFormat='jdbc:sybase:Tds:[serverName]:[portNumber]/[databaseName]?user=[user]&password=[password]'
+    connectionUrlFormatAttr1=''
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='default_Database_Name'
+    databaseType='Sybase'
+    databaseVersion='default_Database_Version'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='<SYBASE INSTALL ROOT>/jConnect-6_05/classes'
+    maxConnectionPoolSize='0'
+    portNumber='2048'
+    securityIdentity='default_User@default_Server'
+    serverName='default_Database_Server_Name'
+    type4DatasourceClassName='com.sybase.jdbc3.jdbc.SybXADataSource'
+    type4DriverClassName='com.sybase.jdbc3.jdbc.SybDriver'
+  Teradata
+    connectionUrlFormat='jdbc:teradata://[serverName]/DATABASE=[databaseName],DBS_PORT=[portNumber],TMODE=ANSI,ACCOUNT=[user]'
+    connectionUrlFormatAttr1=''
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='default_Database_Name'
+    databaseType='Teradata'
+    databaseVersion='default_Database_Version'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='<JDBC DRIVER INSTALL DIRECTORY>/lib'
+    maxConnectionPoolSize='0'
+    portNumber='1025'
+    securityIdentity='default_User@default_Server'
+    serverName='default_Database_Server_Name'
+    type4DatasourceClassName='com.teradata.jdbc.TeraDataSource'
+    type4DriverClassName='com.teradata.jdbc.TeraDriver'
+  solidDB
+    connectionUrlFormat='jdbc:solid://[serverName]:[portNumber]/[user]/[password]'
+    connectionUrlFormatAttr1=''
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='default_Database_Name'
+    databaseType='solidDB'
+    databaseVersion='default_Database_Version'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='<JDBC DRIVER INSTALL DIRECTORY>/lib'
+    maxConnectionPoolSize='0'
+    portNumber='2315'
+    securityIdentity='default_User@default_Server'
+    serverName='default_Database_Server_Name'
+    type4DatasourceClassName='solid.jdbc.xa.SolidXADataSource'
+    type4DriverClassName='solid.jdbc.SolidDriver'
+  Dummy
+    connectionUrlFormat='jdbc:db2://[serverName]:[portNumber]/[databaseName]:user=[user];password=[password];'
+    connectionUrlFormatAttr1='EGOVTT'
+    connectionUrlFormatAttr2='clientRerouteAlternateServerName=test2.ibm.com'
+    connectionUrlFormatAttr3='clientRerouteAlternatePortNumber=50000'
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='EGOVTT'
+    databaseType='DB2 Universal Database'
+    databaseVersion='9.1'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='/opt/ibm/db2/V9.1/'
+    maxConnectionPoolSize='0'
+    portNumber='50000'
+    securityIdentity='VTestPortalDBSecurityIdentity'
+    serverName='test.aws.com'
+    type4DatasourceClassName='com.ibm.db2.jcc.DB2XADataSource'
+    type4DriverClassName='com.ibm.db2.jcc.DB2Driver'
+  OracleEWADatabase
+    connectionUrlFormat='jdbc:oracle:thin:[user]/[password]@[serverName]:[portNumber]:[connectionUrlFormatAttr1]'
+    connectionUrlFormatAttr1='CSSPREP'
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='CSSPREP'
+    databaseType='Oracle'
+    databaseVersion='11.2.0.1.0'
+    description='EWA Ministry Database'
+    environmentParms='default_none'
+    jarsURL='/NGI/lib'
+    maxConnectionPoolSize='25'
+    portNumber='1521'
+    securityIdentity='OracleEWADBSecurityIdentity'
+    serverName='10.39.217.5'
+    type4DatasourceClassName='oracle.jdbc.xa.client.OracleXADataSource'
+    type4DriverClassName='oracle.jdbc.OracleDriver'
+  OracleNewDatabase
+    connectionUrlFormat='jdbc:oracle:thin:[user]/[password]@[serverName]:[portNumber]:[connectionUrlFormatAttr1]'
+    connectionUrlFormatAttr1='CSSPREP'
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='CSSPREP'
+    databaseType='Oracle'
+    databaseVersion='11.2.0.1.0'
+    description='Oracle Ministry Database'
+    environmentParms='default_none'
+    jarsURL='/NGI/lib'
+    maxConnectionPoolSize='25'
+    portNumber='1521'
+    securityIdentity='OracleNewDBSecurityIdentity'
+    serverName='10.39.18.3'
+    type4DatasourceClassName='oracle.jdbc.xa.client.OracleXADataSource'
+    type4DriverClassName='oracle.jdbc.OracleDriver'
+  OracleTestDataBase
+    connectionUrlFormat='jdbc:oracle:thin:[user]/[password]@[serverName]:[portNumber]:[connectionUrlFormatAttr1]'
+    connectionUrlFormatAttr1='CSSPREP'
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='CSSPREP'
+    databaseType='Oracle'
+    databaseVersion='11.2.0.1.0'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='/NGI/lib1'
+    maxConnectionPoolSize='20'
+    portNumber='1521'
+    securityIdentity='OracleTestDBSecurityIdentity'
+    serverName='10.39.18.3'
+    type4DatasourceClassName='oracle.jdbc.xa.client.OracleXADataSource'
+    type4DriverClassName='oracle.jdbc.OracleDriver'
+  PRDEWADB
+    connectionUrlFormat='jdbc:oracle:thin:[user]/[password]@[serverName]:[portNumber]:[connectionUrlFormatAttr1]'
+    connectionUrlFormatAttr1='CSSPRO'
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='CSSPRO'
+    databaseType='Oracle'
+    databaseVersion='default_Database_Version'
+    description='EWA Ministry Database: Verifying Prod EWA DB'
+    environmentParms='default_none'
+    jarsURL='/NGI/lib'
+    maxConnectionPoolSize='0'
+    portNumber='1521'
+    securityIdentity='PRDEWADBSI'
+    serverName='10.39.212.209'
+    type4DatasourceClassName='default_Type_Four_Datasource_Class_Name'
+    type4DriverClassName='default_Type_Four_Driver_Class_Name'
+  TestPortalDB
+    connectionUrlFormat='jdbc:db2://[serverName]:[portNumber]/[databaseName]:user=[user];password=[password];'
+    connectionUrlFormatAttr1='EGOVPROD'
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='EGOVPROD'
+    databaseType='DB2 Universal Database'
+    databaseVersion='9.5'
+    description='TestPortalDB'
+    environmentParms='default_none'
+    jarsURL='/opt/ibm/db2/V9.5/java'
+    maxConnectionPoolSize='0'
+    portNumber='60000'
+    securityIdentity='TestPortalDBSecurityIdentity'
+    serverName='10.10.71.3'
+    type4DatasourceClassName='com.ibm.db2.jcc.DB2XADataSource'
+    type4DriverClassName='com.ibm.db2.jcc.DB2Driver'
+  VTestPortalDB
+    connectionUrlFormat='jdbc:db2://[serverName]:[portNumber]/[databaseName]:user=[user];password=[password];'
+    connectionUrlFormatAttr1='EGOVT'
+    connectionUrlFormatAttr2=''
+    connectionUrlFormatAttr3=''
+    connectionUrlFormatAttr4=''
+    connectionUrlFormatAttr5=''
+    databaseName='EGOVT'
+    databaseType='DB2 Universal Database'
+    databaseVersion='9.5'
+    description='default_Description'
+    environmentParms='default_none'
+    jarsURL='/opt/ibm/db2/V9.5/java'
+    maxConnectionPoolSize='0'
+    portNumber='60011'
+    securityIdentity='VTestPortalDBSecurityIdentity'
+    serverName='10.240.20.148'
+    type4DatasourceClassName='com.ibm.db2.jcc.DB2XADataSource'
+    type4DriverClassName='com.ibm.db2.jcc.DB2Driver'
+JDEdwardsConnection
+  JDEdwardsConnectionTemplate
+    Environment=''
+    Role=''
+JMSProviders
+  ActiveMQ
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  BEA_Weblogic
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='weblogic.jndi.WLInitialContextFactory'
+    proprietaryAPIAttr2='<URL JNDI Bindings>'
+    proprietaryAPIAttr3='<Server Name>'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='com.ibm.broker.apihandler.BEAWebLogicAPIHandler'
+  FioranoMQ
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  Generic_File
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  Generic_LDAP
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  JBoss
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='true'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  JOnAS
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  Joram
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  OpenJMS
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  Oracle_AQ
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  Oracle_OEMS
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  SeeBeyond
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  SonicMQ
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  SwiftMQ
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  Tibco_EMS
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  WebSphere_MQ
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='/opt/mqm/java/lib'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='/opt/mqm/java/lib'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+  WebSphere_WAS_Client
+    clientAckBatchSize='0'
+    clientAckBatchTime='0'
+    initialContextFactory=''
+    jarsURL='default_Path'
+    jmsAsyncExceptionHandling='false'
+    jndiBindingsLocation=''
+    jndiEnvironmentParms='default_none'
+    nativeLibs='default_Path'
+    proprietaryAPIAttr1='default_none'
+    proprietaryAPIAttr2='default_none'
+    proprietaryAPIAttr3='default_none'
+    proprietaryAPIAttr4='default_none'
+    proprietaryAPIAttr5='default_none'
+    proprietaryAPIHandler='default_none'
+JavaClassLoader
+  Template
+    includedDeployedJars='automatic'
+    sharedJarPath=''
+MonitoringProfiles
+  DefaultMonitoringProfile
+    profileProperties='<?xml version="1.0" encoding="UTF-8"?>
+<monitoringProfile xmlns="http://www.ibm.com/xmlns/prod/websphere/messagebroker/6.1.0/monitoring/profile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<bitstreamDataQuery encoding="base64Binary" bitstreamContent="all"/>
+</monitoringProfile>'
+    useParserNameInMonitoringPayload='FALSE'
+PolicySetBindings
+  WSS10Default
+    associatedPolicySet='WSS10Default'
+    config=''
+    ws-security='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<securityBindings xmlns="http://www.ibm.com/xmlns/prod/websphere/200608/ws-securitybinding">
+<securityBinding name="application">
+<securityInboundBindingConfig>
+<tokenConsumer name="con_unametoken" classname="com.ibm.ws.wssecurity.wssapi.token.impl.CommonTokenConsumer">
+<valueType localName="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#UsernameToken"/>
+<securityTokenReference reference="request:uname_token"/>
+<jAASConfig configName="system.wss.consume.unt"/>
+<callbackHandler classname="com.ibm.websphere.wssecurity.callbackhandler.UNTConsumeCallbackHandler"/>
+</tokenConsumer>
+</securityInboundBindingConfig>
+</securityBinding>
+</securityBindings>'
+  ISHAPolicySetBinding
+    associatedPolicySet='ISEHAPolicySet'
+    config=''
+    ws-security='<?xml version="1.0" encoding="UTF-8"?>
+<securitybinding:securityBindings xmlns:securitybinding="http://www.ibm.com/xmlns/prod/websphere/200608/ws-securitybinding">
+  <securitybinding:securityBinding name="application">
+    <securitybinding:securityOutboundBindingConfig>
+      <securitybinding:tokenGenerator classname="com.ibm.ws.wssecurity.wssapi.token.impl.CommonTokenGenerator" name="gen_username_token">
+        <securitybinding:valueType localName="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#UsernameToken"/>
+        <securitybinding:securityTokenReference reference="request:username_token"/>
+        <securitybinding:jAASConfig configName="system.wss.generate.unt"/>
+        <securitybinding:callbackHandler classname="com.ibm.websphere.wssecurity.callbackhandler.UNTGenerateCallbackHandler"/>
+      </securitybinding:tokenGenerator>
+    </securitybinding:securityOutboundBindingConfig>
+  </securitybinding:securityBinding>
+</securitybinding:securityBindings>'
+  myPolicySetBinding
+    associatedPolicySet='WSS10Default'
+    config=''
+    ws-security='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<securityBindings xmlns="http://www.ibm.com/xmlns/prod/websphere/200608/ws-securitybinding">
+<securityBinding name="application">
+<securityInboundBindingConfig>
+<tokenConsumer name="con_unametoken" classname="com.ibm.ws.wssecurity.wssapi.token.impl.CommonTokenConsumer">
+<valueType localName="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#UsernameToken"/>
+<securityTokenReference reference="request:uname_token"/>
+<jAASConfig configName="system.wss.consume.unt"/>
+<callbackHandler classname="com.ibm.websphere.wssecurity.callbackhandler.UNTConsumeCallbackHandler"/>
+</tokenConsumer>
+</securityInboundBindingConfig>
+</securityBinding>
+</securityBindings>'
+  ngipolicybinding
+    associatedPolicySet='ngipolicy'
+    config=''
+    ws-security='<?xml version="1.0" encoding="UTF-8"?>
+<securitybinding:securityBindings xmlns:securitybinding="http://www.ibm.com/xmlns/prod/websphere/200608/ws-securitybinding">
+  <securitybinding:securityBinding name="application">
+    <securitybinding:securityInboundBindingConfig>
+      <securitybinding:tokenConsumer classname="com.ibm.ws.wssecurity.wssapi.token.impl.CommonTokenConsumer" name="con_username_and_password">
+        <securitybinding:valueType localName="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#UsernameToken"/>
+        <securitybinding:securityTokenReference reference="request:username_and_password"/>
+        <securitybinding:jAASConfig configName="system.wss.consume.unt"/>
+        <securitybinding:callbackHandler classname="com.ibm.websphere.wssecurity.callbackhandler.UNTConsumeCallbackHandler"/>
+      </securitybinding:tokenConsumer>
+    </securitybinding:securityInboundBindingConfig>
+  </securitybinding:securityBinding>
+</securitybinding:securityBindings>'
+PolicySets
+  WSS10Default
+    config=''
+    ws-security='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200512" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:spe="http://www.ibm.com/xmlns/prod/websphere/200605/ws-securitypolicy-ext">
+<sp:SupportingTokens>
+<wsp:Policy wsu:Id="request:uname_token">
+<sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200512/IncludeToken/AlwaysToRecipient">
+<wsp:Policy>
+<sp:WssUsernameToken10>
+</sp:WssUsernameToken10>
+</wsp:Policy>
+</sp:UsernameToken>
+</wsp:Policy>
+</sp:SupportingTokens>
+</wsp:Policy>'
+  ISEHAPolicySet
+    config=''
+    ws-security='<?xml version="1.0" encoding="UTF-8"?>
+<policy:Policy xmlns:_0="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:_200512="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200512" xmlns:policy="http://schemas.xmlsoap.org/ws/2004/09/policy">
+  <_200512:SupportingTokens>
+    <policy:Policy _0:Id="request:username_token">
+      <_200512:UsernameToken _200512:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200512/IncludeToken/AlwaysToRecipient">
+        <policy:Policy>
+          <_200512:WssUsernameToken10/>
+        </policy:Policy>
+      </_200512:UsernameToken>
+    </policy:Policy>
+  </_200512:SupportingTokens>
+</policy:Policy>'
+  ngipolicy
+    config=''
+    ws-security='<?xml version="1.0" encoding="UTF-8"?>
+<policy:Policy xmlns:_0="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:_200512="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200512" xmlns:policy="http://schemas.xmlsoap.org/ws/2004/09/policy">
+  <_200512:SupportingTokens>
+    <policy:Policy _0:Id="request:username_and_password">
+      <_200512:UsernameToken _200512:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200512/IncludeToken/AlwaysToRecipient">
+        <policy:Policy>
+          <_200512:WssUsernameToken10/>
+        </policy:Policy>
+      </_200512:UsernameToken>
+    </policy:Policy>
+  </_200512:SupportingTokens>
+</policy:Policy>'
+Resequence
+  Template
+    endSequenceSeconds=''
+    missingMessageTimeoutSeconds=''
+    queuePrefix=''
+    startSequenceSeconds=''
+SAPConnection
+  Template
+    RFCTraceLevel=''
+    RFCTraceOn=''
+    RFCTracePath=''
+    SAPSystemID=''
+    applicationServerHost=''
+    assuredOnceDelivery=''
+    client=''
+    gatewayHost=''
+    gatewayService=''
+    loadBalancing=''
+    logonGroup=''
+    messageServerHost=''
+    numberOfListeners=''
+    retryConnectionOnStartup=''
+    retryInterval=''
+    retryLimit=''
+    rfcProgramID=''
+    sharedTidStoreClientDefinitionFile=''
+    sharedTidStoreQmgr=''
+    systemNumber=''
+SecurityProfiles
+  Default_Propagation
+    authentication='NONE'
+    authenticationConfig=''
+    authorization='NONE'
+    authorizationConfig=''
+    keyStore='Reserved for future use'
+    mapping='NONE'
+    mappingConfig=''
+    passwordValue='PLAIN'
+    propagation='TRUE'
+    trustStore='Reserved for future use'
+  INSURANCE_Profile
+    authentication='LDAP'
+    authenticationConfig='ldap://10.71.66.10:389/cn=users,o=ega,o=gov,c=bh?uid'
+    authorization='LDAP'
+    authorizationConfig='ldap://10.71.66.10:389/cn=insurance_group,cn=groups,o=ega,o=gov,c=bh?member'
+    keyStore='Reserved for future use'
+    mapping='NONE'
+    mappingConfig=''
+    passwordValue='PLAIN'
+    propagation='FALSE'
+    trustStore='Reserved for future use'
+  SADAD_Profile
+    authentication='LDAP'
+    authenticationConfig='ldap://10.71.66.10:389/cn=users,o=ega,o=gov,c=bh?uid'
+    authorization='LDAP'
+    authorizationConfig='ldap://10.71.66.10:389/cn=gp_sadad,cn=groups,o=ega,o=gov,c=bh?member'
+    keyStore='Reserved for future use'
+    mapping='NONE'
+    mappingConfig=''
+    passwordValue='PLAIN'
+    propagation='TRUE'
+    trustStore='Reserved for future use'
+  SecurityProfile_1
+    authentication='LDAP'
+    authenticationConfig='ldap://10.71.66.10:389/cn=users,o=ega,o=gov,c=bh?uid'
+    authorization='LDAP'
+    authorizationConfig='ldap://10.71.66.10:389/cn=gp_gdtconsumers,cn=groups,o=ega,o=gov,c=bh?member'
+    keyStore='keystore.jks'
+    mapping='NONE'
+    mappingConfig=''
+    passwordValue='PLAIN'
+    propagation='TRUE'
+    trustStore='Reserved for future use'
+  SecurityProfile_2
+    authentication='LDAP'
+    authenticationConfig='ldap://192.168.188.3:389/CN=USERS,O=NGI,O=GOV,C=BH?uid'
+    authorization='LDAP'
+    authorizationConfig='ldap://192.168.188.3:389/cn=gp_blis,CN=GROUPS,O=NGI,O=GOV,C=BH?member'
+    keyStore='keystore.jks'
+    mapping='NONE'
+    mappingConfig=''
+    passwordValue='PLAIN'
+    propagation='TRUE'
+    trustStore='Reserved for future use'
+  TESTSP
+    authentication='NONE'
+    authenticationConfig=''
+    authorization='NONE'
+    authorizationConfig=''
+    keyStore='Reserved for future use'
+    mapping='NONE'
+    mappingConfig=''
+    passwordValue='PLAIN'
+    propagation='FALSE'
+    trustStore='Reserved for future use'
+ServiceRegistries
+  DefaultWSRR
+    connectionFactoryName='jms/SRConnectionFactory'
+    connectionTimeout='180'
+    enableCacheNotification='false'
+    endpointAddress='https://10.71.67.5:9443/WSRR6_1/services/WSRRCoreSDOPort'
+    initialContextFactory='com.ibm.websphere.naming.WsnInitialContextFactory'
+    locationJNDIBinding='iiop://fill.in.your.host.here:2809/'
+    needCache='false'
+    predefinedCacheQueries=''
+    refreshQueriesAfterNotification='true'
+    subscriptionTopic='jms/SuccessTopic'
+    timeout='100000000'
+TCPIPClient
+  Default
+    AlternativeAddresses=''
+    ExpireConnectionSec='-1'
+    Hostname='localhost'
+    MaxReceiveRecordBytes='100000000'
+    MaximumConnections='100'
+    MinimumConnections='0'
+    Port='0'
+    SO_KEEPALIVE='false'
+    SO_LINGER='false'
+    SO_LINGER_TIMEOUT_SEC='-1'
+    SO_RCVBUF='0'
+    SO_SNDBUF='0'
+    SSLCiphers=''
+    SSLProtocol=''
+    TCP_NODELAY='false'
+    TrafficClass='-1'
+    UseUniqueConnectionPool='false'
+TCPIPServer
+  Default
+    ExpireConnectionSec='-1'
+    MaxReceiveRecordBytes='100000000'
+    MaximumConnections='100'
+    Port='0'
+    SO_KEEPALIVE='false'
+    SO_LINGER='false'
+    SO_LINGER_TIMEOUT_SEC='-1'
+    SO_RCVBUF='0'
+    SO_SNDBUF='0'
+    SSLCiphers=''
+    SSLClientAuth=''
+    SSLKeyAlias=''
+    SSLProtocol=''
+    TCP_NODELAY='false'
+    TrafficClass='-1'
+Timer
+  Template
+    queuePrefix=''
+    timeoutIntervalSeconds=''
+UserDefined
+  EGAComplaintsSystemConfig
+    ATTACHMENT_FOLDER='/eComplains/Test/TawasulAttachments'
+    ATTACHMENT_FOLDER_READ='/eComplains/Test/TawasulAttachments'
+    III_COMPLAINT_PROCESS_WS_PORT='http://10.71.67.5:10000/NationaleComplaintsWeb/sca/EGAComplaintsInterface'
+    II_COMPLAINT_PROCESS_WS_PORT='http://10.71.67.5:10000/NationaleComplaintsWeb/sca/ApprovalClientInterfaceExport'
+    I_COMPLAINT_PROCESS_WS_PORT='http://10.71.67.5:10000/NationaleComplaintsWeb/sca/NationalComplaintsInterface'
+    _TAWASUL_MEDIATOR_REST_URL='http://localhost:7080/REST/TawasulMediator'
+
+BIP8071I: Successful command completion.
+[wmbadmin@vmdb08 7.0]$
+
+
+
+MIME - multipart (upload attachment)
+++++++++++++++++++++++++++++++++++++++++++++++
+DECLARE MIMEBoundary CHAR 'dwMIMEBoundary';
+	 DECLARE url char '';
+				
+	SET OutputLocalEnvironment = InputLocalEnvironment;
+				
+	--SET OutputRoot.HTTPRequestHeader."Content-Type"                = 'form-data';
+	SET OutputLocalEnvironment.Destination.HTTP.RequestLine.Method = 'POST';
+	
+	DECLARE AttachmentType CHARACTER COALESCE(InputRoot.SOAP.Body.ns:UploadAttachment.UploadAttachmentRequest.AttachmentTypeID,'');
+	DECLARE AttachmentContent CHARACTER COALESCE(InputRoot.SOAP.Body.ns:UploadAttachment.UploadAttachmentRequest.FileContent,'');
+	
+	SET OutputLocalEnvironment.Destination.HTTP.RequestURL         = 'http://10.10.10.110:8080/rco/online/addAttachment?attachmentType='||AttachmentType; 
+	SET OutputRoot.Properties.ContentType = 'multipart/form-data; boundary=' || '"'|| MIMEBoundary||'"'; 
+	SET OutputRoot.Properties.CodedCharSetId = 1208;
+	
+--	SET OutputRoot.HTTPRequestHeader."X-Original-HTTP-URL" ='theWebService.com';
+	SET OutputRoot.HTTPRequestHeader."Content-Type" = 'multipart/form-data; boundary=' || '"'|| MIMEBoundary||'"'; 
+	SET OutputRoot.HTTPRequestHeader."MIME-Version"='1.0';  
+	SET OutputRoot.HTTPRequestHeader.Accept = '*/*';
+	
+	CREATE FIELD OutputRoot.MIME TYPE Name; 
+	DECLARE mm REFERENCE TO OutputRoot.MIME; 
+	CREATE LASTCHILD OF mm TYPE Name NAME 'Parts'; 
+	CREATE LASTCHILD OF mm.Parts TYPE Name NAME 'Part';
+
+	DECLARE tt CHARACTER BASE64DECODE (AttachmentContent) ;
+--	DECLARE tt11 CHARACTER BASE64ENCODE (AttachmentContent) ;
+	
+	DECLARE CONTENT BLOB ASBITSTREAM(InputRoot.SOAP.Body, InputProperties.Encoding, InputProperties.CodedCharSetId); 
+
+	DECLARE P1 REFERENCE TO OutputRoot.MIME.Parts.Part; 
+	CREATE FIELD P1."Content-Type" TYPE NameValue VALUE 'image/jpeg; name=click2.jpg';
+	CREATE FIELD P1."Content-Transfer-Encoding" TYPE NameValue VALUE 'binary'; 			 
+	CREATE FIELD P1."Content-Disposition" TYPE NameValue VALUE 'form-data; name="file"; filename="click2.jpg"	'; 
+	CREATE LASTCHILD OF P1 TYPE Name NAME 'Data';
+	CREATE LASTCHILD OF P1.Data DOMAIN('BLOB') NAME 'BLOB';
+	DECLARE filete BLOB CAST(tt AS BLOB);
+	CREATE LASTCHILD OF P1.Data.BLOB NAME 'BLOB' VALUE filete;
+	
+	--SET P1.Data = 'TEST';
+
+

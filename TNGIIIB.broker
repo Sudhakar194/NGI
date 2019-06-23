@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IntegrationNodeConnectionParameters Version="10.0.0" host="10.11.1.21" listenerPort="4414" integrationNodeName="TNGIIIB" userName=""  password="" useSsl="false" sslTrustStorePassword="" sslTrustStorePath="" xmlns=""/>
