@@ -1,0 +1,48 @@
+Create user :
+CREATE USER 'mobappuser1'@'localhost' IDENTIFIED BY 'mobappuser1';
+FLUSH PRIVILEGES;
+GRANT ALL PRIVILEGES ON *.* TO 'mobappuser1'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+
+Delete user :
+SELECT user FROM mysql.user GROUP BY user;
+or
+SELECT User,Host FROM mysql.user;
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'bloguser'@'localhost';
+DROP USER 'bloguser'@'localhost';
+
+
+Create the database:
+show databases;
+CREATE DATABASE mobappdb;
+USE mobappdb;
+
+Delete the database:
+DROP DATABASE mobappdb;
+
+
+connect from CMD:
+mysql -u <username> -h localhost -p <databasename>
+
+
+
++++++++++++++++++++++++++++++++++++++++
+
+Create datasource in windows:
+
+1) Open Administrative Tools :
+2) click "ODBC Data Sources (64-bit)"
+3) SELECT "system DSN" tab
+4) Click "add" and SELECT "MYSQL ODBC 8.0 unicode Driver" 
+5) Enter Details :
+
+
+
+
+
+
+
+
+
+

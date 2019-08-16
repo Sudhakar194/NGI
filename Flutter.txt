@@ -1,0 +1,4 @@
+flutter hot reload 
+your device/simulator to allow instant updates without having to restart your application
+
+flutter run 
